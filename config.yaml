@@ -1,0 +1,63 @@
+openai:
+  model: gpt-4o
+  api_key: ${OPENAI_API_KEY}   # optional: only needed when using --backend gpt
+  max_retries: 3
+  timeout: 60
+
+generation:
+  # FLUX.2-klein variants:
+  #   black-forest-labs/FLUX.2-klein-4B  (Apache 2.0, ~8GB VRAM, no HF token)
+  #   black-forest-labs/FLUX.2-klein-9B  (Non-commercial, ~16GB VRAM, needs HF token)
+  model_id: black-forest-labs/FLUX.2-klein-4B
+  pipeline_class: Flux2Pipeline         # diffusers class for FLUX.2-klein (v0.37+)
+  hf_token: ${HF_TOKEN}                 # optional for the 4B Apache variant
+  width: 1056
+  height: 528
+  num_steps: 4             # FLUX.2-klein is optimized for 4-step inference
+  guidance_scale: 1.0      # FLUX.2-klein recommended guidance_scale
+  seeds_per_pair: 5
+  max_sequence_length: 512
+  device: cuda
+
+scale:
+  num_persons: 50          # validation phase; scale to 2000-3000 later
+  emotion_pairs_per_person: 3  # validation phase; scale to 5-8 later
+
+filtering:
+  arcface_threshold: 0.5
+  require_exact_one_face: true
+  face_det_score_threshold: 0.5
+  emotion_model: enet_b0_8_best_afew  # HSEmotion model variant
+
+paths:
+  data_dir: data
+  prompts_file: data/prompts.jsonl
+  raw_dir: data/raw
+  cropped_dir: data/cropped
+  filtered_dir: data/filtered
+  dataset_dir: data/dataset
+  filter_stats: data/filter_stats.json
+  metadata_file: data/raw/metadata.jsonl
+
+emotions:
+  - neutral
+  - happy
+  - sad
+  - angry
+  - surprised
+  - fearful
+  - disgusted
+  - contempt
+
+# Emotion pairs to generate (source_emotion -> target_emotion)
+emotion_pairs:
+  - [neutral, happy]
+  - [neutral, sad]
+  - [neutral, angry]
+  - [neutral, surprised]
+  - [neutral, fearful]
+  - [neutral, disgusted]
+  - [happy, sad]
+  - [happy, angry]
+  - [happy, surprised]
+  - [sad, angry]

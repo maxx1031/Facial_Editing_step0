@@ -1,0 +1,34 @@
+# Core generation
+# FLUX.2-klein requires a recent diffusers with Flux2KleinPipeline support
+diffusers>=0.33.0
+transformers>=4.44.0
+accelerate>=0.33.0
+torch>=2.1.0
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+
+# OpenAI (optional — only needed when using --backend gpt in step1)
+openai>=1.40.0
+
+# Face analysis
+insightface>=0.7.3
+onnxruntime-gpu>=1.18.0
+opencv-python>=4.8.0
+
+# Emotion recognition
+hsemotion>=0.3.0
+
+# Image processing
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Dataset packaging
+datasets>=2.20.0
+pyarrow>=14.0.0
+
+# Utilities
+tqdm>=4.66.0
+jsonlines>=4.0.0
+pyyaml>=6.0.1
+requests>=2.31.0
+huggingface_hub>=0.24.0
