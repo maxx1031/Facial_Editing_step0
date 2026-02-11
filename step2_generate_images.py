@@ -5,6 +5,8 @@ Step 2: Generate side-by-side face emotion images using FLUX.2-klein.
 Model: black-forest-labs/FLUX.2-klein-4B  (Apache 2.0, ~8GB VRAM, 4-step inference)
        black-forest-labs/FLUX.2-klein-9B  (Non-commercial, ~16GB VRAM)
 
+Pipeline class: Flux2Pipeline (diffusers >= 0.36), falls back to DiffusionPipeline.
+
 Input:  data/prompts.jsonl
 Output: data/raw/{person_id}/{pair_id}/seed_{n}.png
         data/raw/metadata.jsonl
@@ -42,22 +44,32 @@ def load_config(config_path: str = "config.yaml") -> dict:
     return expand(raw)
 
 
-def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str = "Flux2KleinPipeline"):
+def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str = "Flux2Pipeline"):
     """
     Load FLUX.2-klein pipeline with memory optimizations.
 
     Supported pipeline_class values:
-      - "Flux2KleinPipeline"  for FLUX.2-klein-4B / 9B
+      - "Flux2Pipeline"       for FLUX.2-klein-4B / 9B (diffusers >= 0.36)
       - "FluxPipeline"        fallback for FLUX.1-dev
+      - "DiffusionPipeline"   generic auto-detect fallback
     """
     import diffusers
 
     PipelineClass = getattr(diffusers, pipeline_class, None)
     if PipelineClass is None:
-        raise ImportError(
-            f"diffusers does not have '{pipeline_class}'. "
-            "Please upgrade: pip install -U diffusers"
-        )
+        # Fallback chain: try DiffusionPipeline as generic loader
+        print(f"WARNING: diffusers {diffusers.__version__} does not have '{pipeline_class}'.")
+        for fallback in ["DiffusionPipeline"]:
+            PipelineClass = getattr(diffusers, fallback, None)
+            if PipelineClass is not None:
+                print(f"  Using fallback: {fallback}")
+                pipeline_class = fallback
+                break
+        if PipelineClass is None:
+            raise ImportError(
+                f"diffusers does not have '{pipeline_class}' or any fallback. "
+                "Please upgrade: pip install -U diffusers"
+            )
 
     print(f"Loading {pipeline_class} from {model_id}...")
     print("  dtype=bfloat16, device=cuda")
@@ -98,7 +110,8 @@ def generate_image(
     seed: int,
 ) -> Image.Image:
     """Generate a single image."""
-    generator = torch.Generator().manual_seed(seed)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    generator = torch.Generator(device=device).manual_seed(seed)
 
     # Flux2Pipeline expects prompt as a list of strings (batch format)
     # Convert single string to list
@@ -200,7 +213,7 @@ def main():
         gen_cfg["model_id"],
         gen_cfg.get("hf_token", ""),
         gen_cfg["device"],
-        pipeline_class=gen_cfg.get("pipeline_class", "Flux2KleinPipeline"),
+        pipeline_class=gen_cfg.get("pipeline_class", "Flux2Pipeline"),
     )
 
     # Open metadata file in append mode

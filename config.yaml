@@ -9,7 +9,7 @@ generation:
   #   black-forest-labs/FLUX.2-klein-4B  (Apache 2.0, ~8GB VRAM, no HF token)
   #   black-forest-labs/FLUX.2-klein-9B  (Non-commercial, ~16GB VRAM, needs HF token)
   model_id: black-forest-labs/FLUX.2-klein-4B
-  pipeline_class: Flux2Pipeline         # diffusers class for FLUX.2-klein (v0.37+)
+  pipeline_class: Flux2Pipeline         # diffusers class for FLUX.2-klein (v0.36+)
   hf_token: ${HF_TOKEN}                 # optional for the 4B Apache variant
   width: 1056
   height: 528
