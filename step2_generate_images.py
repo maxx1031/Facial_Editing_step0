@@ -46,34 +46,23 @@ def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str
     """
     Load FLUX.2-klein pipeline with memory optimizations.
 
-    Supported pipeline_class values:
-      - "Flux2KleinPipeline"  for FLUX.2-klein-4B / 9B
-      - "FluxPipeline"        fallback for FLUX.1-dev
+    Uses DiffusionPipeline.from_pretrained with device_map for FLUX.2-klein
+    as per official example: https://huggingface.co/black-forest-labs/FLUX.2-klein-4B
     """
-    import diffusers
+    from diffusers import DiffusionPipeline
 
-    PipelineClass = getattr(diffusers, pipeline_class, None)
-    if PipelineClass is None:
-        raise ImportError(
-            f"diffusers does not have '{pipeline_class}'. "
-            "Please upgrade: pip install -U diffusers"
-        )
+    print(f"Loading DiffusionPipeline from {model_id}...")
+    print("  dtype=bfloat16, device_map=cuda")
 
-    print(f"Loading {pipeline_class} from {model_id}...")
-    print("  dtype=bfloat16, device=cuda")
-
-    # HF token is optional for Apache-licensed 4B variant
+    # Use DiffusionPipeline with device_map as per official FLUX.2-klein example
     load_kwargs = dict(
         torch_dtype=torch.bfloat16,
-        low_cpu_mem_usage=False  # Disable meta device to avoid tensor issues
+        device_map="cuda",
     )
     if hf_token and not hf_token.startswith("${"):
         load_kwargs["token"] = hf_token
 
-    pipe = PipelineClass.from_pretrained(model_id, **load_kwargs)
-
-    # Move to GPU directly (no CPU offload needed with 49GB VRAM)
-    pipe = pipe.to("cuda")
+    pipe = DiffusionPipeline.from_pretrained(model_id, **load_kwargs)
 
     # Additional memory savings if available
     try:
@@ -99,12 +88,6 @@ def generate_image(
 ) -> Image.Image:
     """Generate a single image."""
     generator = torch.Generator().manual_seed(seed)
-
-    # Flux2Pipeline expects prompt as a list of strings (batch format)
-    # Convert single string to list
-    if isinstance(prompt, str):
-        prompt = [prompt]
-
     result = pipe(
         prompt=prompt,
         width=width,
@@ -219,6 +202,10 @@ def main():
     generated_count = 0
     skipped_count = 0
     error_count = 0
+    total_gen_time = 0.0
+    gen_times = []
+    import time as time_module
+    pipeline_start_time = time_module.time()
 
     with tqdm(total=total_jobs, desc="Generating images") as pbar:
         for rec in records:
@@ -244,6 +231,7 @@ def main():
                         continue
 
                     try:
+                        gen_start = time_module.time()
                         img = generate_image(
                             pipe,
                             prompt=pair["combined_prompt"],
@@ -253,9 +241,14 @@ def main():
                             guidance_scale=gen_cfg["guidance_scale"],
                             seed=seed,
                         )
+                        gen_end = time_module.time()
+                        gen_duration = gen_end - gen_start
+                        total_gen_time += gen_duration
+                        gen_times.append(gen_duration)
+
                         img.save(str(out_path), format="PNG", optimize=False)
 
-                        # Write metadata
+                        # Write metadata with timing info
                         if image_id not in existing_meta_ids:
                             metadata_writer.write({
                                 "image_id": image_id,
@@ -272,6 +265,8 @@ def main():
                                 "width": gen_cfg["width"],
                                 "height": gen_cfg["height"],
                                 "path": str(out_path),
+                                "generation_time_sec": round(gen_duration, 3),
+                                "timestamp": time_module.strftime("%Y-%m-%d %H:%M:%S"),
                             })
                             existing_meta_ids.add(image_id)
 
@@ -294,12 +289,64 @@ def main():
 
     metadata_writer.close()
 
-    print(f"\nDone.")
+    # Calculate timing statistics
+    pipeline_end_time = time_module.time()
+    total_elapsed = pipeline_end_time - pipeline_start_time
+
+    print(f"\n{'='*60}")
+    print(f"Generation Complete!")
+    print(f"{'='*60}")
     print(f"  Generated: {generated_count}")
     print(f"  Skipped (existing): {skipped_count}")
     print(f"  Errors: {error_count}")
     print(f"  Output: {raw_dir}")
     print(f"  Metadata: {metadata_file}")
+
+    if generated_count > 0:
+        avg_time = total_gen_time / generated_count
+        min_time = min(gen_times) if gen_times else 0
+        max_time = max(gen_times) if gen_times else 0
+
+        print(f"\n{'='*60}")
+        print(f"Timing Statistics:")
+        print(f"{'='*60}")
+        print(f"  Total elapsed time: {total_elapsed:.1f}s ({total_elapsed/60:.1f} min)")
+        print(f"  Total generation time: {total_gen_time:.1f}s")
+        print(f"  Average per image: {avg_time:.2f}s")
+        print(f"  Min/Max per image: {min_time:.2f}s / {max_time:.2f}s")
+        print(f"  Throughput: {generated_count / total_elapsed * 60:.1f} images/min")
+
+        # Estimate time for larger datasets
+        print(f"\n{'='*60}")
+        print(f"Time Estimates for Larger Datasets:")
+        print(f"{'='*60}")
+        for target in [1000, 5000, 10000, 20000, 50000]:
+            est_hours = (target * avg_time) / 3600
+            print(f"  {target:>6,} images: {est_hours:.1f} hours ({est_hours/24:.1f} days)")
+
+        # Save timing stats to file
+        stats_file = Path("data/generation_stats.json")
+        stats_file.parent.mkdir(parents=True, exist_ok=True)
+        import json
+        stats = {
+            "generated_count": generated_count,
+            "skipped_count": skipped_count,
+            "error_count": error_count,
+            "total_elapsed_sec": round(total_elapsed, 2),
+            "total_generation_sec": round(total_gen_time, 2),
+            "avg_time_per_image_sec": round(avg_time, 3),
+            "min_time_per_image_sec": round(min_time, 3),
+            "max_time_per_image_sec": round(max_time, 3),
+            "throughput_per_min": round(generated_count / total_elapsed * 60, 2),
+            "model_id": gen_cfg["model_id"],
+            "num_steps": gen_cfg["num_steps"],
+            "width": gen_cfg["width"],
+            "height": gen_cfg["height"],
+            "timestamp": time_module.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        with open(stats_file, "w") as f:
+            json.dump(stats, f, indent=2)
+        print(f"\nStats saved to: {stats_file}")
 
 
 if __name__ == "__main__":

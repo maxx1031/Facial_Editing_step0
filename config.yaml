@@ -5,12 +5,10 @@ openai:
   timeout: 60
 
 generation:
-  # FLUX.2-klein variants:
-  #   black-forest-labs/FLUX.2-klein-4B  (Apache 2.0, ~8GB VRAM, no HF token)
-  #   black-forest-labs/FLUX.2-klein-9B  (Non-commercial, ~16GB VRAM, needs HF token)
+  # FLUX.2-klein-4B: Apache 2.0, ~8GB VRAM, 4-step inference
   model_id: black-forest-labs/FLUX.2-klein-4B
-  pipeline_class: Flux2Pipeline         # diffusers class for FLUX.2-klein (v0.37+)
-  hf_token: ${HF_TOKEN}                 # optional for the 4B Apache variant
+  pipeline_class: Flux2Pipeline         # 使用 DiffusionPipeline 自动加载
+  hf_token: ${HF_TOKEN}                 # optional for 4B Apache variant
   width: 1056
   height: 528
   num_steps: 4             # FLUX.2-klein is optimized for 4-step inference
