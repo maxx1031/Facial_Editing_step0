@@ -1,1 +1,36 @@
-/data/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Logs
+logs/
+*.log
+
+# Data / outputs (generated)
+data/*
+data/raw/
+data/cropped/
+data/filtered/
+data/dataset/
+data/prompts/
+data/*.jsonl
+data/*.json
+
+# Pipeline runtime artifacts
+data/.pipeline_checkpoint.json
+data/*stats*.json
+
+# MVP outputs / visualizations
+mvp_step1x_v11_3/step1x_outputs-offload-512/
+mvp_step1x_v11_3/viz_triptych/
+mvp_step1x_v11_3/lato/outputs-offload-512/
+mvp_step1x_v11_3/lato/target_landmark_viz/
+
+# Common large artifacts (just in case)
+*.pt
+*.ckpt
+*.safetensors
+*.onnx
+*.bin

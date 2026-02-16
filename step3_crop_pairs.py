@@ -35,6 +35,13 @@ def load_config(config_path: str = "config.yaml") -> dict:
     return expand(raw)
 
 
+def resolve_cfg_path(base_dir: Path, p: str | Path) -> Path:
+    p = Path(p)
+    if p.is_absolute():
+        return p
+    return (base_dir / p).resolve()
+
+
 def center_crop(img: Image.Image, size: int) -> Image.Image:
     """Center-crop a PIL image to size×size."""
     w, h = img.size
@@ -45,7 +52,11 @@ def center_crop(img: Image.Image, size: int) -> Image.Image:
     return img.crop((left, top, right, bottom))
 
 
-def split_and_crop(img_path: Path, target_size: int = 512) -> tuple[Image.Image, Image.Image]:
+def split_and_crop(
+    img_path: Path,
+    target_size: int = 512,
+    gutter_px: int = 12,
+) -> tuple[Image.Image, Image.Image]:
     """
     Split a 1056×528 image into left/right halves (528×528 each),
     then center crop to target_size×target_size.
@@ -53,14 +64,19 @@ def split_and_crop(img_path: Path, target_size: int = 512) -> tuple[Image.Image,
     img = Image.open(img_path).convert("RGB")
     w, h = img.size
 
+    mid = w // 2
+    max_gutter = min(mid - target_size, w - mid - target_size)
+    if max_gutter < 0:
+        max_gutter = 0
+    gutter_px = max(0, min(int(gutter_px), int(max_gutter)))
+
     if w != 1056 or h != 528:
         # Try to handle different aspect ratios gracefully
-        half_w = w // 2
-        left_half = img.crop((0, 0, half_w, h))
-        right_half = img.crop((half_w, 0, w, h))
+        left_half = img.crop((0, 0, mid - gutter_px, h))
+        right_half = img.crop((mid + gutter_px, 0, w, h))
     else:
-        left_half = img.crop((0, 0, 528, 528))
-        right_half = img.crop((528, 0, 1056, 528))
+        left_half = img.crop((0, 0, 528 - gutter_px, 528))
+        right_half = img.crop((528 + gutter_px, 0, 1056, 528))
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)
@@ -92,13 +108,16 @@ def main():
     parser.add_argument("--config", default="config.yaml")
     parser.add_argument("--target-size", type=int, default=512,
                         help="Output crop size in pixels (default: 512)")
+    parser.add_argument("--gutter-px", type=int, default=12,
+                        help="Skip this many pixels on each side of the center split (default: 12)")
     parser.add_argument("--raw-metadata", default=None,
                         help="Path to raw metadata.jsonl for richer metadata")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
-    raw_dir = Path(cfg["paths"]["raw_dir"])
-    cropped_dir = Path(cfg["paths"]["cropped_dir"])
+    cfg_base_dir = Path(args.config).resolve().parent
+    raw_dir = resolve_cfg_path(cfg_base_dir, cfg["paths"]["raw_dir"])
+    cropped_dir = resolve_cfg_path(cfg_base_dir, cfg["paths"]["cropped_dir"])
     cropped_dir.mkdir(parents=True, exist_ok=True)
 
     if not raw_dir.exists():
@@ -107,7 +126,7 @@ def main():
 
     # Load raw metadata for richer info (optional)
     raw_meta = {}
-    meta_file = Path(cfg["paths"]["metadata_file"])
+    meta_file = resolve_cfg_path(cfg_base_dir, cfg["paths"]["metadata_file"])
     if meta_file.exists():
         with jsonlines.open(meta_file) as reader:
             for obj in reader:
@@ -147,7 +166,7 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            left_crop, right_crop = split_and_crop(img_path, args.target_size)
+            left_crop, right_crop = split_and_crop(img_path, args.target_size, args.gutter_px)
 
             left_path = out_dir / "left.png"
             right_path = out_dir / "right.png"

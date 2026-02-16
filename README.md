@@ -88,7 +88,7 @@ flux_face_emotion/
 
 **配置:**
 - 模型: FLUX.2-klein-4B (8GB VRAM)
-- 分辨率: 1056×528
+- 分辨率: 1058×528
 - 推理步数: 4 steps
 - 每对生成 5 个种子
 
@@ -379,9 +379,91 @@ emotion_pairs:
 - **FLUX.2-klein-4B:** Apache 2.0 (商用友好)
 - **FLUX.2-klein-9B:** 非商业许可证
 
+---
+
+## Step 6: InfiniteYou 光照增强 (新功能)
+
+使用 InfiniteYou 模型对已有的 cropped 数据进行泛化增强：
+- **保持 identity 不变**: 使用 InfuseNet 控制身份特征
+- **保持 emotion 不变**: 在 prompt 中指定相同的情感
+- **添加多样化光照**: 20 种预定义光照条件可选
+- **一一对应**: 每个原始 pair 生成多个光照变体
+
+### 光照条件示例
+
+```
+- soft natural daylight, diffused sunlight
+- golden hour warm sunlight, soft shadows
+- dramatic side lighting, strong contrast
+- rim lighting from behind, silhouette edges
+- soft studio lighting, professional portrait
+- ... (共 20 种)
+```
+
+### 使用方法
+
+```bash
+# 激活 InfiniteYou 环境
+conda activate infiniteyou
+
+# 单 GPU 运行 (GPU 0, 每个 pair 5 种光照变体)
+./run_step6_augmentation.sh 0 5
+
+# 指定范围 (GPU 0, 5 种光照, pair 0-50)
+./run_step6_augmentation.sh 0 5 0 50
+
+# 多 GPU 并行运行 (6 个 GPU)
+./run_step6_parallel.sh 5 "0,3,4,5,6,7"
+```
+
+### 详细参数
+
+```bash
+python step6_infiniteyou_augmentation.py \
+    --cuda_device 0 \
+    --num_lighting_variants 5 \
+    --infusenet_conditioning_scale 1.2 \
+    --guidance_scale 3.5 \
+    --num_steps 30 \
+    --width 512 \
+    --height 512 \
+    --start_idx 0 \
+    --end_idx 100
+```
+
+**关键参数说明:**
+- `infusenet_conditioning_scale`: ID 控制强度 (推荐 1.0-1.3)
+- `num_lighting_variants`: 每个 pair 生成的光照变体数量
+- `start_idx/end_idx`: 用于并行处理或恢复
+
+### 输出结构
+
+```
+data/augmented/
+├── p0000_pair00_light00/
+│   ├── left.png
+│   └── right.png
+├── p0000_pair00_light01/
+│   ├── left.png
+│   └── right.png
+├── ...
+├── augmented_metadata.jsonl
+└── augmentation_stats.json
+```
+
+### 预期输出
+
+以 150 pairs × 5 光照变体为例:
+- **输入:** 150 个原始 emotion pairs
+- **输出:** 150 × 5 = 750 个增强 pairs
+- **图像数:** 750 × 2 = 1,500 张图像
+
+---
+
 ## 技术栈
 
 - **图像生成:** FLUX.2-klein (Black Forest Labs)
+- **ID 保持增强:** InfiniteYou (ByteDance) - 基于 FLUX.1-dev
 - **面部识别:** InsightFace (ArcFace)
 - **情感识别:** HSEmotion
 - **Prompt 生成:** GPT-4o (可选) 或模板
