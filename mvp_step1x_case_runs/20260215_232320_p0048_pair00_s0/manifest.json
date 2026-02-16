@@ -1,0 +1,14 @@
+[
+  {
+    "image_id": "p0048_pair00_s0",
+    "person_id": "p0048",
+    "input_name": "p0048_pair00_s0.png",
+    "left_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0048_pair00_s0/left.png",
+    "right_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0048_pair00_s0/right.png",
+    "source_emotion": "neutral",
+    "target_emotion": "surprised",
+    "instruction": "Modify facial musculature to express surprise. Activate frontalis muscle to raise inner and outer brows (AU1 + AU2), creating horizontal forehead wrinkles. Activate levator palpebrae superioris to widen the eyes (AU5). Relax orbicularis oculi to prevent eyelid drooping. Release lip pressor tension (deactivate AU24).Relax depressor anguli oris (deactivate AU15). Activate jaw depressor muscles to drop the mandible (AU26).Part the lips naturally (AU25) without stretching corners laterally. Keep identity, age, gender, skin tone, lighting unchanged. Do not modify hairstyle, head pose, facial structure, texture, or image style. Only alter muscle activations corresponding to the specified Action Units.",
+    "person_description": "A 65-year-old Nigerian non-binary person with cool beige skin, striking amber eyes and arched brows. They have short black hair.",
+    "run_name": "20260215_232320_p0048_pair00_s0"
+  }
+]

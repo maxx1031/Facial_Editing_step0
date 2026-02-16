@@ -1,0 +1,6 @@
+{
+  "p0101_pair00_s0.png": {
+    "instruction": "Change facial expression from a Duchenne smile to anger. Deactivate AU12 to remove lip-corner lift. Deactivate AU6 to remove cheek raise and eye crinkling. Deactivate AU25 to close the mouth and remove upper-lip elevation. Activate AU4 to lower and draw the eyebrows inward. Activate AU7 to increase lower-eyelid tension. Activate AU23 and AU24 to press and tighten the lips. Slightly activate AU17 to raise and tense the chin. Keep identity, age, gender, skin tone, lighting unchanged. Do not alter head pose, camera distance, hairstyle, or background. Only modify the facial Action Units above.",
+    "person_description": "A 28-year-old Indigenous American man with warm tan skin, square jaw and thick eyebrows. They have shaved head."
+  }
+}

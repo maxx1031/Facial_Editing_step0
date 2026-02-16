@@ -1,0 +1,10 @@
+{
+  "image_id": "p0019_pair00_s0",
+  "run_name": "20260215_231327_p0019_pair00_s0",
+  "run_dir": "/scratch3/f007yzf/flux_face_emotion/mvp_step1x_case_runs/20260215_231327_p0019_pair00_s0",
+  "note": "v3 prompt test",
+  "source_emotion": "happy",
+  "target_emotion": "angry",
+  "instruction": "Edit only the facial expression from happy to angry. Remove smile and cheek raise (deactivate AU12, AU6). Close mouth and remove teeth visibility (deactivate AU25, AU26). Lower and draw brows together (activate AU4). Tighten lower eyelids (activate AU7). Press and tighten lips horizontally (activate AU23, AU24). Slightly tense chin (mild AU17). Keep identity, age, gender, skin tone, hair, pose, lighting, and background unchanged. and lowered brows.",
+  "created_at": "2026-02-15T23:13:27"
+}

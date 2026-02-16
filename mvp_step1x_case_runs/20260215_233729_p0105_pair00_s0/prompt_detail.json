@@ -1,0 +1,6 @@
+{
+  "p0105_pair00_s0.png": {
+    "instruction": "Set AU4 (brow lowerer) to intensity 0 to eliminate medial brow contraction. Smooth the glabellar region by relaxing corrugator supercilii and depressor supercilii. Set AU15 (lip corner depressor), AU17 (chin raiser), and AU23/24 (lip tightener/pressor) to intensity 0 to remove lower face tension and lip compression.Activate AU12 (zygomaticus major) to intensity 4–5 to pull lip corners upward and laterally. Activate AU6 (orbicularis oculi, pars orbitalis) to intensity 3–4 to raise cheeks and create infraorbital compression, narrowing the palpebral fissure. Activate AU25 (lips part) to intensity 2–3 and AU26 (jaw drop) to intensity 2 to produce mild mouth opening with visible upper teeth. Apply symmetric AU activation across left and right hemiface. Keep identity, age, gender, skin tone, lighting unchanged. Only modify facial muscle activation related to expression.",
+    "person_description": "A 42-year-old Thai non-binary person with rich dark brown skin, square jaw and thick eyebrows. They have loose curls chestnut hair."
+  }
+}

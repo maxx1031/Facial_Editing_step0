@@ -1,0 +1,10 @@
+{
+  "image_id": "p0105_pair00_s0",
+  "run_name": "20260215_234418_p0105_pair00_s0",
+  "run_dir": "/scratch3/f007yzf/flux_face_emotion/mvp_step1x_case_runs/20260215_234418_p0105_pair00_s0",
+  "note": "",
+  "source_emotion": "happy",
+  "target_emotion": "sad",
+  "instruction": "Modify only facial muscle activations to transform the expression from a Duchenne smile to a frown.Deactivate zygomaticus major (remove upward lip corner pull; eliminate AU12). Relax orbicularis oculi (remove cheek raising and eye crinkling; eliminate AU6). Close the mouth by relaxing jaw depressor muscles (remove AU25 and AU26).Activate corrugator supercilii and depressor supercilii to draw the eyebrows downward and medially, forming vertical glabellar lines (activate AU4).Activate orbicularis oculi (palpebral portion) to tighten lower eyelids slightly (activate AU7). Activate depressor anguli oris to pull lip corners downward (activate AU15). Engage orbicularis oris to compress the lips (activate AU23). Slightly raise and tense the chin via mentalis activation (activate AU17).Keep identity, age, gender, skin tone, lighting unchanged. Only modify expression-related muscle activations.",
+  "created_at": "2026-02-15T23:44:18"
+}

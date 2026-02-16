@@ -1,0 +1,14 @@
+[
+  {
+    "image_id": "p0105_pair00_s0",
+    "person_id": "p0105",
+    "input_name": "p0105_pair00_s0.png",
+    "left_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0105_pair00_s0/left.png",
+    "right_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0105_pair00_s0/right.png",
+    "source_emotion": "happy",
+    "target_emotion": "sad",
+    "instruction": "Relax AU4 to remove brow lowering and medial brow contraction, deactivate AU15 and AU17 to release lower-lip tension and remove lip compression, activate AU12 to lift lip corners upward and laterally, activate AU6 to raise cheeks and narrow the eye aperture slightly, activate mild AU25 and AU26 for gentle mouth opening with upper-teeth visibility, keep activation symmetric on both sides, and keep identity, age, gender, skin tone, and lighting unchanged while only changing expression-related Action Units.",
+    "person_description": "A 42-year-old Thai non-binary person with rich dark brown skin, square jaw and thick eyebrows. They have loose curls chestnut hair.",
+    "run_name": "20260215_233443_p0105_pair00_s0"
+  }
+]

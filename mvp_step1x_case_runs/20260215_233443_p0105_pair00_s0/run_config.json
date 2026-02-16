@@ -1,0 +1,10 @@
+{
+  "image_id": "p0105_pair00_s0",
+  "run_name": "20260215_233443_p0105_pair00_s0",
+  "run_dir": "/scratch3/f007yzf/flux_face_emotion/mvp_step1x_case_runs/20260215_233443_p0105_pair00_s0",
+  "note": "",
+  "source_emotion": "happy",
+  "target_emotion": "sad",
+  "instruction": "Relax AU4 to remove brow lowering and medial brow contraction, deactivate AU15 and AU17 to release lower-lip tension and remove lip compression, activate AU12 to lift lip corners upward and laterally, activate AU6 to raise cheeks and narrow the eye aperture slightly, activate mild AU25 and AU26 for gentle mouth opening with upper-teeth visibility, keep activation symmetric on both sides, and keep identity, age, gender, skin tone, and lighting unchanged while only changing expression-related Action Units.",
+  "created_at": "2026-02-15T23:34:43"
+}

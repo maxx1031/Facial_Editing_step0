@@ -1,0 +1,802 @@
+{
+  "p0131_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0131_pair00_s0/left.png"
+  },
+  "p0181_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0181_pair00_s0/left.png"
+  },
+  "p0022_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0022_pair00_s0/left.png"
+  },
+  "p0172_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0172_pair00_s0/left.png"
+  },
+  "p0144_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0144_pair00_s0/left.png"
+  },
+  "p0092_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0092_pair00_s0/left.png"
+  },
+  "p0097_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0097_pair00_s0/left.png"
+  },
+  "p0187_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0187_pair00_s0/left.png"
+  },
+  "p0058_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0058_pair00_s0/left.png"
+  },
+  "p0093_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0093_pair00_s0/left.png"
+  },
+  "p0006_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0006_pair00_s0/left.png"
+  },
+  "p0070_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0070_pair00_s0/left.png"
+  },
+  "p0106_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0106_pair00_s0/left.png"
+  },
+  "p0068_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0068_pair00_s0/left.png"
+  },
+  "p0153_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0153_pair00_s0/left.png"
+  },
+  "p0168_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0168_pair00_s0/left.png"
+  },
+  "p0179_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0179_pair00_s0/left.png"
+  },
+  "p0199_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0199_pair00_s0/left.png"
+  },
+  "p0029_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0029_pair00_s0/left.png"
+  },
+  "p0046_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0046_pair00_s0/left.png"
+  },
+  "p0009_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0009_pair00_s0/left.png"
+  },
+  "p0142_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0142_pair00_s0/left.png"
+  },
+  "p0134_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0134_pair00_s0/left.png"
+  },
+  "p0088_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0088_pair00_s0/left.png"
+  },
+  "p0193_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0193_pair00_s0/left.png"
+  },
+  "p0110_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0110_pair00_s0/left.png"
+  },
+  "p0026_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0026_pair00_s0/left.png"
+  },
+  "p0032_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0032_pair00_s0/left.png"
+  },
+  "p0117_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0117_pair00_s0/left.png"
+  },
+  "p0112_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0112_pair00_s0/left.png"
+  },
+  "p0017_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0017_pair00_s0/left.png"
+  },
+  "p0039_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0039_pair00_s0/left.png"
+  },
+  "p0166_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0166_pair00_s0/left.png"
+  },
+  "p0013_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0013_pair00_s0/left.png"
+  },
+  "p0094_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0094_pair00_s0/left.png"
+  },
+  "p0138_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0138_pair00_s0/left.png"
+  },
+  "p0109_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0109_pair00_s0/left.png"
+  },
+  "p0147_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0147_pair00_s0/left.png"
+  },
+  "p0051_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0051_pair00_s0/left.png"
+  },
+  "p0101_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0101_pair00_s0/left.png"
+  },
+  "p0059_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0059_pair00_s0/left.png"
+  },
+  "p0188_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0188_pair00_s0/left.png"
+  },
+  "p0116_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0116_pair00_s0/left.png"
+  },
+  "p0005_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0005_pair00_s0/left.png"
+  },
+  "p0170_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0170_pair00_s0/left.png"
+  },
+  "p0099_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0099_pair00_s0/left.png"
+  },
+  "p0100_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0100_pair00_s0/left.png"
+  },
+  "p0167_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0167_pair00_s0/left.png"
+  },
+  "p0180_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0180_pair00_s0/left.png"
+  },
+  "p0146_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0146_pair00_s0/left.png"
+  },
+  "p0065_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0065_pair00_s0/left.png"
+  },
+  "p0001_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0001_pair00_s0/left.png"
+  },
+  "p0104_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0104_pair00_s0/left.png"
+  },
+  "p0043_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0043_pair00_s0/left.png"
+  },
+  "p0038_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0038_pair00_s0/left.png"
+  },
+  "p0184_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0184_pair00_s0/left.png"
+  },
+  "p0123_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0123_pair00_s0/left.png"
+  },
+  "p0171_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0171_pair00_s0/left.png"
+  },
+  "p0137_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0137_pair00_s0/left.png"
+  },
+  "p0162_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0162_pair00_s0/left.png"
+  },
+  "p0071_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0071_pair00_s0/left.png"
+  },
+  "p0044_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0044_pair00_s0/left.png"
+  },
+  "p0095_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0095_pair00_s0/left.png"
+  },
+  "p0174_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0174_pair00_s0/left.png"
+  },
+  "p0012_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0012_pair00_s0/left.png"
+  },
+  "p0007_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0007_pair00_s0/left.png"
+  },
+  "p0054_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0054_pair00_s0/left.png"
+  },
+  "p0152_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0152_pair00_s0/left.png"
+  },
+  "p0021_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0021_pair00_s0/left.png"
+  },
+  "p0047_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0047_pair00_s0/left.png"
+  },
+  "p0028_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0028_pair00_s0/left.png"
+  },
+  "p0176_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0176_pair00_s0/left.png"
+  },
+  "p0034_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0034_pair00_s0/left.png"
+  },
+  "p0002_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0002_pair00_s0/left.png"
+  },
+  "p0132_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0132_pair00_s0/left.png"
+  },
+  "p0118_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0118_pair00_s0/left.png"
+  },
+  "p0042_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0042_pair00_s0/left.png"
+  },
+  "p0189_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0189_pair00_s0/left.png"
+  },
+  "p0150_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0150_pair00_s0/left.png"
+  },
+  "p0014_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0014_pair00_s0/left.png"
+  },
+  "p0165_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0165_pair00_s0/left.png"
+  },
+  "p0041_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0041_pair00_s0/left.png"
+  },
+  "p0192_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0192_pair00_s0/left.png"
+  },
+  "p0045_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0045_pair00_s0/left.png"
+  },
+  "p0082_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0082_pair00_s0/left.png"
+  },
+  "p0128_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0128_pair00_s0/left.png"
+  },
+  "p0063_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0063_pair00_s0/left.png"
+  },
+  "p0057_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0057_pair00_s0/left.png"
+  },
+  "p0197_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0197_pair00_s0/left.png"
+  },
+  "p0160_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0160_pair00_s0/left.png"
+  },
+  "p0053_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0053_pair00_s0/left.png"
+  },
+  "p0075_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0075_pair00_s0/left.png"
+  },
+  "p0108_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0108_pair00_s0/left.png"
+  },
+  "p0135_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0135_pair00_s0/left.png"
+  },
+  "p0121_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0121_pair00_s0/left.png"
+  },
+  "p0159_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0159_pair00_s0/left.png"
+  },
+  "p0183_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0183_pair00_s0/left.png"
+  },
+  "p0067_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0067_pair00_s0/left.png"
+  },
+  "p0169_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0169_pair00_s0/left.png"
+  },
+  "p0050_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0050_pair00_s0/left.png"
+  },
+  "p0087_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0087_pair00_s0/left.png"
+  },
+  "p0069_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0069_pair00_s0/left.png"
+  },
+  "p0089_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0089_pair00_s0/left.png"
+  },
+  "p0196_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0196_pair00_s0/left.png"
+  },
+  "p0115_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0115_pair00_s0/left.png"
+  },
+  "p0019_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0019_pair00_s0/left.png"
+  },
+  "p0148_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0148_pair00_s0/left.png"
+  },
+  "p0096_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0096_pair00_s0/left.png"
+  },
+  "p0086_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0086_pair00_s0/left.png"
+  },
+  "p0011_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0011_pair00_s0/left.png"
+  },
+  "p0008_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0008_pair00_s0/left.png"
+  },
+  "p0060_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0060_pair00_s0/left.png"
+  },
+  "p0033_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0033_pair00_s0/left.png"
+  },
+  "p0173_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0173_pair00_s0/left.png"
+  },
+  "p0078_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0078_pair00_s0/left.png"
+  },
+  "p0004_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0004_pair00_s0/left.png"
+  },
+  "p0119_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0119_pair00_s0/left.png"
+  },
+  "p0105_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0105_pair00_s0/left.png"
+  },
+  "p0182_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0182_pair00_s0/left.png"
+  },
+  "p0127_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0127_pair00_s0/left.png"
+  },
+  "p0177_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0177_pair00_s0/left.png"
+  },
+  "p0030_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0030_pair00_s0/left.png"
+  },
+  "p0186_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0186_pair00_s0/left.png"
+  },
+  "p0040_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0040_pair00_s0/left.png"
+  },
+  "p0049_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0049_pair00_s0/left.png"
+  },
+  "p0178_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0178_pair00_s0/left.png"
+  },
+  "p0076_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0076_pair00_s0/left.png"
+  },
+  "p0157_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0157_pair00_s0/left.png"
+  },
+  "p0161_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0161_pair00_s0/left.png"
+  },
+  "p0073_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0073_pair00_s0/left.png"
+  },
+  "p0164_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0164_pair00_s0/left.png"
+  },
+  "p0151_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0151_pair00_s0/left.png"
+  },
+  "p0031_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0031_pair00_s0/left.png"
+  },
+  "p0074_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0074_pair00_s0/left.png"
+  },
+  "p0191_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0191_pair00_s0/left.png"
+  },
+  "p0027_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0027_pair00_s0/left.png"
+  },
+  "p0125_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0125_pair00_s0/left.png"
+  },
+  "p0198_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0198_pair00_s0/left.png"
+  },
+  "p0081_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0081_pair00_s0/left.png"
+  },
+  "p0020_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0020_pair00_s0/left.png"
+  },
+  "p0155_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0155_pair00_s0/left.png"
+  },
+  "p0114_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0114_pair00_s0/left.png"
+  },
+  "p0139_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0139_pair00_s0/left.png"
+  },
+  "p0036_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0036_pair00_s0/left.png"
+  },
+  "p0061_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0061_pair00_s0/left.png"
+  },
+  "p0056_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0056_pair00_s0/left.png"
+  },
+  "p0145_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0145_pair00_s0/left.png"
+  },
+  "p0048_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0048_pair00_s0/left.png"
+  },
+  "p0016_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0016_pair00_s0/left.png"
+  },
+  "p0083_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0083_pair00_s0/left.png"
+  },
+  "p0062_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0062_pair00_s0/left.png"
+  },
+  "p0085_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0085_pair00_s0/left.png"
+  },
+  "p0126_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0126_pair00_s0/left.png"
+  },
+  "p0000_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0000_pair00_s0/left.png"
+  },
+  "p0102_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0102_pair00_s0/left.png"
+  },
+  "p0023_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0023_pair00_s0/left.png"
+  },
+  "p0003_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0003_pair00_s0/left.png"
+  },
+  "p0140_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0140_pair00_s0/left.png"
+  },
+  "p0015_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0015_pair00_s0/left.png"
+  },
+  "p0195_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0195_pair00_s0/left.png"
+  },
+  "p0133_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0133_pair00_s0/left.png"
+  },
+  "p0113_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0113_pair00_s0/left.png"
+  },
+  "p0190_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0190_pair00_s0/left.png"
+  },
+  "p0141_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0141_pair00_s0/left.png"
+  },
+  "p0052_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0052_pair00_s0/left.png"
+  },
+  "p0163_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0163_pair00_s0/left.png"
+  },
+  "p0156_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0156_pair00_s0/left.png"
+  },
+  "p0080_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0080_pair00_s0/left.png"
+  },
+  "p0111_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0111_pair00_s0/left.png"
+  },
+  "p0090_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0090_pair00_s0/left.png"
+  },
+  "p0175_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0175_pair00_s0/left.png"
+  },
+  "p0143_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0143_pair00_s0/left.png"
+  },
+  "p0120_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0120_pair00_s0/left.png"
+  },
+  "p0084_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0084_pair00_s0/left.png"
+  },
+  "p0018_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0018_pair00_s0/left.png"
+  },
+  "p0025_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0025_pair00_s0/left.png"
+  },
+  "p0079_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0079_pair00_s0/left.png"
+  },
+  "p0037_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0037_pair00_s0/left.png"
+  },
+  "p0154_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0154_pair00_s0/left.png"
+  },
+  "p0136_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0136_pair00_s0/left.png"
+  },
+  "p0064_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0064_pair00_s0/left.png"
+  },
+  "p0158_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0158_pair00_s0/left.png"
+  },
+  "p0024_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0024_pair00_s0/left.png"
+  },
+  "p0185_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0185_pair00_s0/left.png"
+  },
+  "p0072_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0072_pair00_s0/left.png"
+  },
+  "p0035_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0035_pair00_s0/left.png"
+  },
+  "p0129_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0129_pair00_s0/left.png"
+  },
+  "p0055_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to fearful.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0055_pair00_s0/left.png"
+  },
+  "p0149_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0149_pair00_s0/left.png"
+  },
+  "p0091_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to happy.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0091_pair00_s0/left.png"
+  },
+  "p0122_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0122_pair00_s0/left.png"
+  },
+  "p0077_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0077_pair00_s0/left.png"
+  },
+  "p0103_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0103_pair00_s0/left.png"
+  },
+  "p0124_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to sad.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0124_pair00_s0/left.png"
+  },
+  "p0130_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0130_pair00_s0/left.png"
+  },
+  "p0066_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0066_pair00_s0/left.png"
+  },
+  "p0010_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0010_pair00_s0/left.png"
+  },
+  "p0107_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to surprised.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0107_pair00_s0/left.png"
+  },
+  "p0194_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to angry.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0194_pair00_s0/left.png"
+  },
+  "p0098_pair00_s0": {
+    "caption": "Keep the same identity. Change only the facial expression to disgusted.",
+    "source_image_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0098_pair00_s0/left.png"
+  }
+}

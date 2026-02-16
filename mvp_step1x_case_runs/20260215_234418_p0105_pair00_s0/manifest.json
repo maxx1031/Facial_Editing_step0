@@ -1,0 +1,14 @@
+[
+  {
+    "image_id": "p0105_pair00_s0",
+    "person_id": "p0105",
+    "input_name": "p0105_pair00_s0.png",
+    "left_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0105_pair00_s0/left.png",
+    "right_path": "/scratch3/f007yzf/flux_face_emotion/data/cropped/p0105_pair00_s0/right.png",
+    "source_emotion": "happy",
+    "target_emotion": "sad",
+    "instruction": "Modify only facial muscle activations to transform the expression from a Duchenne smile to a frown.Deactivate zygomaticus major (remove upward lip corner pull; eliminate AU12). Relax orbicularis oculi (remove cheek raising and eye crinkling; eliminate AU6). Close the mouth by relaxing jaw depressor muscles (remove AU25 and AU26).Activate corrugator supercilii and depressor supercilii to draw the eyebrows downward and medially, forming vertical glabellar lines (activate AU4).Activate orbicularis oculi (palpebral portion) to tighten lower eyelids slightly (activate AU7). Activate depressor anguli oris to pull lip corners downward (activate AU15). Engage orbicularis oris to compress the lips (activate AU23). Slightly raise and tense the chin via mentalis activation (activate AU17).Keep identity, age, gender, skin tone, lighting unchanged. Only modify expression-related muscle activations.",
+    "person_description": "A 42-year-old Thai non-binary person with rich dark brown skin, square jaw and thick eyebrows. They have loose curls chestnut hair.",
+    "run_name": "20260215_234418_p0105_pair00_s0"
+  }
+]
