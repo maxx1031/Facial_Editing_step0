@@ -18,6 +18,7 @@ data/prompts/
 data/*.jsonl
 data/*.json
 
+.venv
 data_small_*/
 # Pipeline runtime artifacts
 data/.pipeline_checkpoint.json
