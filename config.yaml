@@ -36,6 +36,12 @@ paths:
   dataset_dir: data/dataset
   filter_stats: data/filter_stats.json
   metadata_file: data/raw/metadata.jsonl
+  # v2 pipeline paths
+  reference_pool_dir: data/reference_pool
+  reference_pool_metadata: data/reference_pool/pool_metadata.jsonl
+  triplets_dir: data/triplets
+  triplets_metadata: data/triplets/triplet_metadata.jsonl
+  dataset_v2_dir: data/dataset_v2
 
 emotions:
   - neutral
@@ -46,6 +52,14 @@ emotions:
   - fearful
   - disgusted
   - contempt
+
+# v2 reference pool settings
+reference_pool:
+  flux_per_expression: 500       # synthetic I_r images per expression via Flux
+  real_dataset_dir: data/real_datasets  # root dir for AffectNet/RAF-DB/FER+
+  min_face_area_frac: 0.10
+  emotion_conf_threshold: 0.55
+  k_ir_per_pair: 3               # how many I_r to sample per (I_e, I_e_edit) pair
 
 # Emotion pairs to generate (source_emotion -> target_emotion)
 emotion_pairs:

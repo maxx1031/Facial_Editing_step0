@@ -101,15 +101,51 @@ _SKIN_TONES = [
     "warm copper skin",
 ]
 
+_SCENES = [
+    "sitting at a cafe, blurred interior background",
+    "standing on a busy city street",
+    "in a corporate office, desk and monitor visible",
+    "outdoors in a park, green trees in background",
+    "at a restaurant table",
+    "in a library, bookshelves behind",
+    "at a beach boardwalk, ocean in distance",
+    "in a subway station, tiled walls behind",
+    "in a cozy living room, warm indoor setting",
+    "at a gym, equipment visible in background",
+    "in a university lecture hall",
+    "outdoors at a market stall",
+    "in a hospital corridor",
+    "at a rooftop terrace, city skyline behind",
+    "in a kitchen, countertop and cabinets visible",
+]
 
-def generate_template_descriptions(n: int, seed: int = 42) -> list[str]:
-    """Generate n diverse person descriptions from built-in template pool."""
+_LIGHTING = [
+    "natural soft daylight",
+    "warm golden hour light",
+    "cool overcast light",
+    "dramatic side lighting",
+    "soft indoor ambient light",
+    "harsh midday sun",
+    "neon-lit interior",
+    "soft window light from the side",
+    "bright studio lighting",
+    "candlelit warm glow",
+]
+
+
+def generate_template_descriptions(n: int, seed: int = 42) -> list[tuple[str, str, str]]:
+    """Generate n diverse person descriptions from built-in template pool.
+
+    Returns list of (person_desc, scene, lighting) tuples so that callers can
+    embed the scene/lighting into the combined prompt while keeping the raw
+    person description separate for metadata.
+    """
     rng = random.Random(seed)
-    descriptions = []
+    results = []
     seen = set()
     attempts = 0
 
-    while len(descriptions) < n and attempts < n * 20:
+    while len(results) < n and attempts < n * 20:
         attempts += 1
         age = rng.choice(_AGES)
         gender = rng.choice(_GENDERS)
@@ -117,17 +153,20 @@ def generate_template_descriptions(n: int, seed: int = 42) -> list[str]:
         hair = rng.choice(_HAIR)
         features = rng.choice(_FEATURES)
         skin = rng.choice(_SKIN_TONES)
+        scene = rng.choice(_SCENES)
+        lighting = rng.choice(_LIGHTING)
 
         desc = (
             f"A {age} {ethnicity} {gender} with {skin}, {features}. "
             f"They have {hair}."
         )
 
-        if desc not in seen:
-            seen.add(desc)
-            descriptions.append(desc)
+        key = (desc, scene, lighting)
+        if key not in seen:
+            seen.add(key)
+            results.append((desc, scene, lighting))
 
-    return descriptions[:n]
+    return results[:n]
 
 
 # ---------------------------------------------------------------------------
@@ -249,22 +288,42 @@ EMOTION_DESCRIPTIONS = {
 }
 
 
-def build_combined_prompt(person_desc: str, emotion_left: str, emotion_right: str) -> dict:
-    """Build left, right, and combined side-by-side prompts."""
+def build_combined_prompt(
+    person_desc: str,
+    emotion_left: str,
+    emotion_right: str,
+    scene: str = "",
+    lighting: str = "",
+) -> dict:
+    """Build left, right, and combined side-by-side prompts.
+
+    Args:
+        person_desc: Physical description of the person.
+        emotion_left: Emotion label for the left image.
+        emotion_right: Emotion label for the right image.
+        scene: Scene/location description (e.g. "sitting at a cafe").
+        lighting: Lighting description (e.g. "natural soft daylight").
+    """
     emo_l_desc = EMOTION_DESCRIPTIONS[emotion_left]
     emo_r_desc = EMOTION_DESCRIPTIONS[emotion_right]
 
-    base = f"professional portrait photograph, {person_desc}"
-    quality = "high quality, photorealistic, sharp focus, studio lighting, 8k"
+    context = ""
+    if scene:
+        context += f", {scene}"
+    if lighting:
+        context += f", {lighting}"
+
+    base = f"professional photograph, {person_desc}{context}"
+    quality = "high quality, photorealistic, sharp focus, 8k"
 
     prompt_left = f"{base}, {emo_l_desc}, {quality}"
     prompt_right = f"{base}, {emo_r_desc}, {quality}"
 
     combined_prompt = (
-        f"Two side-by-side portrait photographs of the same person. "
+        f"Two side-by-side photographs of the same person. "
         f"LEFT PHOTO: {base}, {emo_l_desc}. "
-        f"RIGHT PHOTO: {base}, {emo_r_desc}. "
-        f"Both photos: same identity, same lighting, same background. "
+        f"RIGHT PHOTO: same person, identical scene, identical lighting, identical clothing, "
+        f"only facial expression changes: {emo_r_desc}. "
         f"{quality}. Split image, diptych format."
     )
 
@@ -272,6 +331,8 @@ def build_combined_prompt(person_desc: str, emotion_left: str, emotion_right: st
         "prompt_left": prompt_left,
         "prompt_right": prompt_right,
         "combined_prompt": combined_prompt,
+        "scene": scene,
+        "lighting": lighting,
     }
 
 
@@ -349,27 +410,32 @@ Examples:
     print(f"  Total pairs to generate: {remaining * pairs_per_person}")
 
     # --- Fetch descriptions ---
+    # template backend returns (person_desc, scene, lighting) tuples;
+    # gpt/manual backends return plain strings — wrap them as (desc, "", "").
     if args.backend == "template":
-        descriptions = generate_template_descriptions(remaining, seed=args.seed + already_done)
+        raw = generate_template_descriptions(remaining, seed=args.seed + already_done)
+        descriptions = raw  # list of (desc, scene, lighting)
 
     elif args.backend == "gpt":
         api_key = cfg["openai"]["api_key"]
         if not api_key:
             print("ERROR: OPENAI_API_KEY not set. Use --backend template or set the env var.")
             sys.exit(1)
-        descriptions = generate_gpt_descriptions(
+        plain = generate_gpt_descriptions(
             api_key=api_key,
             model=cfg["openai"]["model"],
             n=remaining,
             batch_size=args.batch_size,
             max_retries=cfg["openai"]["max_retries"],
         )
+        descriptions = [(d, "", "") for d in plain]
 
     elif args.backend == "manual":
         if not args.manual_file:
             print("ERROR: --manual-file required for --backend manual")
             sys.exit(1)
-        descriptions = load_manual_descriptions(args.manual_file, remaining)
+        plain = load_manual_descriptions(args.manual_file, remaining)
+        descriptions = [(d, "", "") for d in plain]
 
     else:
         print(f"ERROR: Unknown backend: {args.backend}")
@@ -378,7 +444,7 @@ Examples:
     # --- Build JSONL records ---
     start_idx = already_done
     with jsonlines.open(output_file, mode="a") as writer:
-        for i, desc in enumerate(descriptions[:remaining]):
+        for i, (desc, scene, lighting) in enumerate(descriptions[:remaining]):
             person_idx = start_idx + i
             person_id = f"p{person_idx:04d}"
 
@@ -386,7 +452,7 @@ Examples:
 
             pairs = []
             for pair_idx, (emo_l, emo_r) in enumerate(selected_pairs):
-                prompts = build_combined_prompt(desc, emo_l, emo_r)
+                prompts = build_combined_prompt(desc, emo_l, emo_r, scene=scene, lighting=lighting)
                 pairs.append({
                     "pair_id": f"{person_id}_pair{pair_idx:02d}",
                     "emotion_left": emo_l,
@@ -397,6 +463,8 @@ Examples:
             record = {
                 "person_id": person_id,
                 "person_description": desc,
+                "scene": scene,
+                "lighting": lighting,
                 "backend": args.backend,
                 "pairs": pairs,
             }
