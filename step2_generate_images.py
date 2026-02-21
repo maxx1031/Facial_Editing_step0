@@ -60,7 +60,8 @@ def _patch_flux2_chat_format_input() -> None:
     """
     try:
         from diffusers.pipelines.flux2 import pipeline_flux2 as _pflux2
-    except Exception:
+    except Exception as e:
+        print(f"  WARNING: Flux2 chat-format patch NOT applied ({e}). Text encoding may be broken.")
         return
 
     if getattr(_pflux2, "_patched_legacy_text_format_input", False):
@@ -127,7 +128,7 @@ def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str
     # load path if local diffusers/accelerate stack hits meta-tensor dispatch bugs.
     load_kwargs = dict(
         torch_dtype=torch.bfloat16,
-        device_map="cuda",
+        device_map=device,
     )
     if hf_token and not hf_token.startswith("${"):
         load_kwargs["token"] = hf_token
@@ -177,9 +178,10 @@ def generate_image(
     num_steps: int,
     guidance_scale: float,
     seed: int,
+    device: str = 'cuda',
 ) -> Image.Image:
     """Generate a single image."""
-    generator = torch.Generator().manual_seed(seed)
+    generator = torch.Generator(device=device).manual_seed(seed)
     result = pipe(
         prompt=prompt,
         width=width,
@@ -332,12 +334,18 @@ def main():
                             num_steps=gen_cfg["num_steps"],
                             guidance_scale=gen_cfg["guidance_scale"],
                             seed=seed,
+                            device=gen_cfg["device"],
                         )
                         gen_end = time_module.time()
                         gen_duration = gen_end - gen_start
                         total_gen_time += gen_duration
                         gen_times.append(gen_duration)
 
+                        # Diagnose black image
+                        import numpy as np
+                        arr = np.array(img)
+                        if arr.max() < 5:
+                            print(f"\n  [DIAG] BLACK IMAGE {image_id}: mean={arr.mean():.3f} max={arr.max()} min={arr.min()}")
                         img.save(str(out_path), format="PNG", optimize=False)
 
                         # Write metadata with timing info

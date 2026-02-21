@@ -53,61 +53,50 @@ def center_crop(img: Image.Image, size: int) -> Image.Image:
     return img.crop((left, top, right, bottom))
 
 
-def _edge_white_run(
+def _trim_white_borders(
     img: Image.Image,
-    side: str,
-    white_thresh: int = 245,
+    white_thresh: int = 230,
     white_frac_thresh: float = 0.95,
-    max_scan: int = 64,
-) -> int:
-    """Count consecutive near-white columns from one image edge."""
+    max_scan: int = 128,
+    margin: int = 2,
+) -> Image.Image:
+    """
+    Trim near-white borders on all four edges (left, right, top, bottom).
+
+    A row/column is considered white if >= white_frac_thresh fraction of its
+    pixels are all-channel >= white_thresh.  Consecutive white rows/columns
+    from each edge are removed, plus a small safety margin.
+    """
     arr = np.array(img.convert("RGB"))
-    col_white_frac = (
+    h, w = arr.shape[:2]
+
+    is_white = (
         (arr[:, :, 0] >= white_thresh)
         & (arr[:, :, 1] >= white_thresh)
         & (arr[:, :, 2] >= white_thresh)
-    ).mean(axis=0)
+    )
 
-    seq = col_white_frac[:max_scan] if side == "left" else col_white_frac[::-1][:max_scan]
-    run = 0
-    for v in seq:
-        if v >= white_frac_thresh:
-            run += 1
-        else:
-            break
-    return int(run)
+    col_white_frac = is_white.mean(axis=0)   # shape (w,)
+    row_white_frac = is_white.mean(axis=1)   # shape (h,)
 
+    def _run(seq: np.ndarray) -> int:
+        count = 0
+        for v in seq[:max_scan]:
+            if v >= white_frac_thresh:
+                count += 1
+            else:
+                break
+        return count + margin if count > 0 else 0
 
-def _trim_inner_white_seam(
-    left_half: Image.Image,
-    right_half: Image.Image,
-    target_size: int,
-) -> tuple[Image.Image, Image.Image]:
-    """
-    Trim near-white seam artifacts on inner edges:
-      - right edge of left half
-      - left edge of right half
-    """
-    run_left_inner = _edge_white_run(left_half, side="right")
-    run_right_inner = _edge_white_run(right_half, side="left")
+    trim_l = min(_run(col_white_frac),          max(0, w - 1))
+    trim_r = min(_run(col_white_frac[::-1]),    max(0, w - trim_l - 1))
+    trim_t = min(_run(row_white_frac),          max(0, h - 1))
+    trim_b = min(_run(row_white_frac[::-1]),    max(0, h - trim_t - 1))
 
-    # Add small safety margin to remove anti-aliased separator remnants.
-    trim_left = run_left_inner + 2 if run_left_inner > 0 else 0
-    trim_right = run_right_inner + 2 if run_right_inner > 0 else 0
-
-    lw, lh = left_half.size
-    rw, rh = right_half.size
-
-    # Keep enough width for downstream center crop.
-    trim_left = min(trim_left, max(0, lw - target_size))
-    trim_right = min(trim_right, max(0, rw - target_size))
-
-    if trim_left > 0:
-        left_half = left_half.crop((0, 0, lw - trim_left, lh))
-    if trim_right > 0:
-        right_half = right_half.crop((trim_right, 0, rw, rh))
-
-    return left_half, right_half
+    box = (trim_l, trim_t, w - trim_r, h - trim_b)
+    if box[2] > box[0] and box[3] > box[1]:
+        img = img.crop(box)
+    return img
 
 
 def split_and_crop(
@@ -136,8 +125,9 @@ def split_and_crop(
         left_half = img.crop((0, 0, 528 - gutter_px, 528))
         right_half = img.crop((528 + gutter_px, 0, 1056, 528))
 
-    # Adaptive cleanup for variable center separator artifacts.
-    left_half, right_half = _trim_inner_white_seam(left_half, right_half, target_size=target_size)
+    # Trim all four edges of each half independently.
+    left_half = _trim_white_borders(left_half)
+    right_half = _trim_white_borders(right_half)
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)

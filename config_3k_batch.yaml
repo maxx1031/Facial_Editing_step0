@@ -27,19 +27,19 @@ filtering:
   emotion_model: enet_b0_8_best_afew
 
 paths:
-  data_dir: data_small_20260220_213722
-  prompts_file: data_small_20260220_213722/prompts.jsonl
-  raw_dir: data_small_20260220_213722/raw
-  cropped_dir: data_small_20260220_213722/cropped
-  filtered_dir: data_small_20260220_213722/filtered
-  dataset_dir: data_small_20260220_213722/dataset
-  filter_stats: data_small_20260220_213722/filter_stats.json
-  metadata_file: data_small_20260220_213722/raw/metadata.jsonl
-  reference_pool_dir: data_small_20260220_213722/reference_pool
-  reference_pool_metadata: data_small_20260220_213722/reference_pool/pool_metadata.jsonl
-  triplets_dir: data_small_20260220_213722/triplets
-  triplets_metadata: data_small_20260220_213722/triplets/triplet_metadata.jsonl
-  dataset_v2_dir: data_small_20260220_213722/dataset_v2
+  data_dir: data_large_3000
+  prompts_file: data_large_3000/prompts.jsonl
+  raw_dir: data_large_3000/raw
+  cropped_dir: data_large_3000/cropped
+  filtered_dir: data_large_3000/filtered
+  dataset_dir: data_large_3000/dataset
+  filter_stats: data_large_3000/filter_stats.json
+  metadata_file: data_large_3000/raw/metadata.jsonl
+  reference_pool_dir: data_large_3000/reference_pool
+  reference_pool_metadata: data_large_3000/reference_pool/pool_metadata.jsonl
+  triplets_dir: data_large_3000/triplets
+  triplets_metadata: data_large_3000/triplets/triplet_metadata.jsonl
+  dataset_v2_dir: data_large_3000/dataset_v2
 
 emotions:
   - neutral
