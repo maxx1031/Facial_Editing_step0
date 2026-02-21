@@ -110,6 +110,73 @@ def _trim_inner_white_seam(
     return left_half, right_half
 
 
+def _edge_white_run_rows(
+    img: Image.Image,
+    side: str,
+    white_thresh: int = 245,
+    white_frac_thresh: float = 0.95,
+    max_scan: int = 64,
+) -> int:
+    """Count consecutive near-white rows from top or bottom edge."""
+    arr = np.array(img.convert("RGB"))
+    row_white_frac = (
+        (arr[:, :, 0] >= white_thresh)
+        & (arr[:, :, 1] >= white_thresh)
+        & (arr[:, :, 2] >= white_thresh)
+    ).mean(axis=1)
+
+    seq = row_white_frac[:max_scan] if side == "top" else row_white_frac[::-1][:max_scan]
+    run = 0
+    for v in seq:
+        if v >= white_frac_thresh:
+            run += 1
+        else:
+            break
+    return int(run)
+
+
+def _trim_all_white_borders(
+    img: Image.Image,
+    target_size: int,
+    white_thresh: int = 245,
+    white_frac_thresh: float = 0.95,
+    max_scan: int = 64,
+) -> Image.Image:
+    """
+    Trim near-white borders from all 4 edges (left, right, top, bottom).
+    Guarantees output is at least target_size in each dimension.
+    """
+    w, h = img.size
+
+    run_left = _edge_white_run(img, side="left", white_thresh=white_thresh,
+                               white_frac_thresh=white_frac_thresh, max_scan=max_scan)
+    run_right = _edge_white_run(img, side="right", white_thresh=white_thresh,
+                                white_frac_thresh=white_frac_thresh, max_scan=max_scan)
+    run_top = _edge_white_run_rows(img, side="top", white_thresh=white_thresh,
+                                   white_frac_thresh=white_frac_thresh, max_scan=max_scan)
+    run_bottom = _edge_white_run_rows(img, side="bottom", white_thresh=white_thresh,
+                                      white_frac_thresh=white_frac_thresh, max_scan=max_scan)
+
+    # Add safety margin.
+    trim_l = run_left + 2 if run_left > 0 else 0
+    trim_r = run_right + 2 if run_right > 0 else 0
+    trim_t = run_top + 2 if run_top > 0 else 0
+    trim_b = run_bottom + 2 if run_bottom > 0 else 0
+
+    # Clamp so we always keep at least target_size in each dimension.
+    max_h_trim = max(0, h - target_size)
+    max_w_trim = max(0, w - target_size)
+    trim_l = min(trim_l, max(0, max_w_trim - trim_r))
+    trim_r = min(trim_r, max(0, max_w_trim - trim_l))
+    trim_t = min(trim_t, max(0, max_h_trim - trim_b))
+    trim_b = min(trim_b, max(0, max_h_trim - trim_t))
+
+    if trim_l == 0 and trim_r == 0 and trim_t == 0 and trim_b == 0:
+        return img
+    return img.crop((trim_l, trim_t, w - trim_r if trim_r > 0 else w,
+                     h - trim_b if trim_b > 0 else h))
+
+
 def split_and_crop(
     img_path: Path,
     target_size: int = 512,
@@ -138,6 +205,10 @@ def split_and_crop(
 
     # Adaptive cleanup for variable center separator artifacts.
     left_half, right_half = _trim_inner_white_seam(left_half, right_half, target_size=target_size)
+
+    # Trim outer white borders (left/right outer edges + top/bottom).
+    left_half = _trim_all_white_borders(left_half, target_size)
+    right_half = _trim_all_white_borders(right_half, target_size)
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)

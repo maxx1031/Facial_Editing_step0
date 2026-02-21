@@ -177,9 +177,10 @@ def generate_image(
     num_steps: int,
     guidance_scale: float,
     seed: int,
+    device: str = "cpu",
 ) -> Image.Image:
     """Generate a single image."""
-    generator = torch.Generator().manual_seed(seed)
+    generator = torch.Generator(device=device).manual_seed(seed)
     result = pipe(
         prompt=prompt,
         width=width,
@@ -332,6 +333,7 @@ def main():
                             num_steps=gen_cfg["num_steps"],
                             guidance_scale=gen_cfg["guidance_scale"],
                             seed=seed,
+                            device=gen_cfg["device"],
                         )
                         gen_end = time_module.time()
                         gen_duration = gen_end - gen_start
