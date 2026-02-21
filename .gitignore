@@ -18,6 +18,7 @@ data/prompts/
 data/*.jsonl
 data/*.json
 
+data_small_*/
 # Pipeline runtime artifacts
 data/.pipeline_checkpoint.json
 data/*stats*.json

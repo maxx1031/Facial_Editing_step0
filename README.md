@@ -2,6 +2,31 @@
 
 一个用于生成面部情感配对图像数据集的完整流水线，使用 FLUX.2-klein 模型和面部识别技术。
 
+## 当前主流程（v2，推荐）
+
+当前代码主流程已经升级为 Step1X 双图训练格式，建议按下面顺序运行：
+
+1. `step1_generate_prompts.py`
+2. `step2_generate_images.py`
+3. `step3_crop_pairs.py`
+4. `step4_filter_pairs.py`
+5. `step5_build_reference_pool.py`
+6. `step6_construct_triplets.py`
+7. `step8_mllm_instructions.py`（可选，生成 FACS 指令）
+8. `step7_package_step1x.py`（输出 Step1X 格式）
+
+一键运行（默认不含 MLLM 步骤）：
+
+```bash
+python run_pipeline.py
+```
+
+若要包含 FACS 指令生成：
+
+```bash
+python run_pipeline.py --steps 7 8 --model-path /path/to/Qwen2.5-VL-7B-Instruct --use-facs
+```
+
 ## 环境配置检查
 
 ### 1. 系统要求
@@ -62,13 +87,19 @@ flux_face_emotion/
 ├── step2_generate_images.py     # 步骤2: 生成图像
 ├── step3_crop_pairs.py          # 步骤3: 裁剪图像对
 ├── step4_filter_pairs.py        # 步骤4: 过滤图像对
-├── step5_package_dataset.py     # 步骤5: 打包数据集
+├── step5_build_reference_pool.py # 步骤5: 构建 I_r 参考池
+├── step6_construct_triplets.py   # 步骤6: 构建三元组
+├── step8_mllm_instructions.py    # 步骤7: 生成 FACS 指令（可选）
+├── step7_package_step1x.py       # 步骤8: 打包 Step1X 数据
+├── step5_package_dataset.py      # 旧版 v1 打包脚本（兼容保留）
 └── data/                        # 数据目录 (自动创建)
     ├── prompts.jsonl            # 生成的 prompts
     ├── raw/                     # 原始生成图像
     ├── cropped/                 # 裁剪后的图像对
     ├── filtered/                # 过滤后的图像对
-    └── dataset/                 # 最终数据集
+    ├── reference_pool/          # I_r 参考池
+    ├── triplets/                # (I_e, I_r, I_e_edit) 三元组
+    └── dataset_v2/              # Step1X 双图训练格式
 ```
 
 ## 流水线步骤说明
@@ -108,10 +139,25 @@ flux_face_emotion/
 
 **输出:** `data/filtered/` + `data/filter_stats.json`
 
-### Step 5: 打包数据集
-将过滤后的图像打包为 Hugging Face datasets 格式。
+### Step 5: 构建 I_r 参考池
+从真实数据与 Flux 合成数据构建目标表情参考池（I_r）。
 
-**输出:** `data/dataset/` (包含 .arrow 文件和 metadata.jsonl)
+**输出:** `data/reference_pool/` + `data/reference_pool/pool_metadata.jsonl`
+
+### Step 6: 构建三元组
+按目标表情把 `(I_e, I_e_edit)` 与 `I_r` 组合为 `(I_e, I_r, I_e_edit)`，支持每对采样 K 个 `I_r`。
+
+**输出:** `data/triplets/triplet_metadata.jsonl`
+
+### Step 7: MLLM 生成 FACS 指令（可选）
+使用 Qwen2.5-VL 分析 `(I_e, I_r)`，写入 `facs_instruction` 到 triplets 元数据。
+
+**输出:** 更新 `data/triplets/triplet_metadata.jsonl`
+
+### Step 8: 打包 Step1X 双图训练格式
+将 triplets 打包为 Step1X 所需 `images/ + metadata.json`。
+
+**输出:** `data/dataset_v2/`
 
 ## 使用方法
 
@@ -124,7 +170,7 @@ cd /scratch3/f007yzf/flux_face_emotion
 python run_pipeline.py --backend template
 
 # 或者分步运行
-python run_pipeline.py --steps 1 2 3 4 5
+python run_pipeline.py --steps 1 2 3 4 5 6 8
 ```
 
 ### 常用命令
@@ -148,13 +194,16 @@ python run_pipeline.py --steps 4 --arcface-threshold 0.6
 # 6. 从某步恢复 (如果中断)
 python run_pipeline.py --from-step 3
 
-# 7. 运行特定步骤
-python run_pipeline.py --steps 4 5
+# 7. 构建参考池 + 三元组
+python run_pipeline.py --steps 5 6 --pool-source both --k 3
 
-# 8. 跳过某些步骤
+# 8. 生成 FACS 指令并打包（需要本地 Qwen2.5-VL）
+python run_pipeline.py --steps 7 8 --model-path /path/to/Qwen2.5-VL-7B-Instruct --use-facs
+
+# 9. 跳过某些步骤
 python run_pipeline.py --skip-steps 1 2
 
-# 9. 试运行 (查看会执行什么，但不实际运行)
+# 10. 试运行 (查看会执行什么，但不实际运行)
 python run_pipeline.py --dry-run
 ```
 
@@ -192,8 +241,17 @@ python step4_filter_pairs.py --stats-only
 # Step 4: 过滤 (实际执行)
 python step4_filter_pairs.py --arcface-threshold 0.5
 
-# Step 5: 打包
-python step5_package_dataset.py
+# Step 5: 构建 I_r 参考池
+python step5_build_reference_pool.py --source both
+
+# Step 6: 构建三元组
+python step6_construct_triplets.py --k 3
+
+# Step 7 (可选): MLLM FACS 指令
+python step8_mllm_instructions.py --model-path /path/to/Qwen2.5-VL-7B-Instruct
+
+# Step 8: Step1X 打包
+python step7_package_step1x.py --use-facs
 ```
 
 ## 配置文件说明 (config.yaml)
@@ -463,7 +521,7 @@ data/augmented/
 ## 技术栈
 
 - **图像生成:** FLUX.2-klein (Black Forest Labs)
-- **ID 保持增强:** InfiniteYou (ByteDance) - 基于 FLUX.1-dev
+- **ID 保持增强:** InfiniteYou (ByteDance) - 基于 FLUX.2 系列工作流
 - **面部识别:** InsightFace (ArcFace)
 - **情感识别:** HSEmotion
 - **Prompt 生成:** GPT-4o (可选) 或模板

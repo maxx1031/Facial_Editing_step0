@@ -27,6 +27,71 @@ from PIL import Image
 from tqdm import tqdm
 
 
+def _prefer_site_packages_diffusers() -> None:
+    """
+    Some local environments inject a dev diffusers repo path (e.g.
+    repos/diffusers_step1x_v1p2/src) into sys.path, which can break FLUX.2-klein
+    inference due to API/template mismatches. Remove it so imports resolve to the
+    conda site-packages build.
+    """
+    bad_markers = ("/repos/diffusers_step1x_v1p2/src",)
+    cleaned = []
+    removed = []
+    for p in sys.path:
+        if any(m in p for m in bad_markers):
+            removed.append(p)
+            continue
+        cleaned.append(p)
+    if removed:
+        sys.path[:] = cleaned
+        for name in list(sys.modules.keys()):
+            if name == "diffusers" or name.startswith("diffusers."):
+                del sys.modules[name]
+        print("  Removed injected diffusers dev path(s):")
+        for p in removed:
+            print(f"    - {p}")
+
+
+def _patch_flux2_chat_format_input() -> None:
+    """
+    Compat patch for some Flux2/tokenizer combinations where the tokenizer's
+    chat template expects message['content'] to be a plain string (legacy style),
+    while diffusers 0.36.0 Flux2 `format_input` builds multimodal-style lists.
+    """
+    try:
+        from diffusers.pipelines.flux2 import pipeline_flux2 as _pflux2
+    except Exception:
+        return
+
+    if getattr(_pflux2, "_patched_legacy_text_format_input", False):
+        return
+
+    def _legacy_text_only_format_input(prompts, system_message=_pflux2.SYSTEM_MESSAGE, images=None):
+        cleaned_txt = [prompt.replace("[IMG]", "") for prompt in prompts]
+        # Text-only generation path used in this project.
+        if images is None or len(images) == 0:
+            return [
+                [
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt},
+                ]
+                for prompt in cleaned_txt
+            ]
+
+        # Fallback for image-conditioned cases: keep text prompt as plain string.
+        messages = [[{"role": "system", "content": system_message}] for _ in cleaned_txt]
+        for i, (el, imgs) in enumerate(zip(messages, images)):
+            if imgs is not None:
+                # Keep multimodal payload for images if provided by caller.
+                el.append({"role": "user", "content": [{"type": "image", "image": im} for im in imgs]})
+            el.append({"role": "user", "content": cleaned_txt[i]})
+        return messages
+
+    _pflux2.format_input = _legacy_text_only_format_input
+    _pflux2._patched_legacy_text_format_input = True
+    print("  Applied Flux2 chat-format compatibility patch (string content).")
+
+
 def load_config(config_path: str = "config.yaml") -> dict:
     with open(config_path) as f:
         raw = yaml.safe_load(f)
@@ -42,19 +107,24 @@ def load_config(config_path: str = "config.yaml") -> dict:
     return expand(raw)
 
 
-def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str = "Flux2KleinPipeline"):
+def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str = "Flux2Pipeline"):
     """
     Load FLUX.2-klein pipeline with memory optimizations.
 
     Uses DiffusionPipeline.from_pretrained with device_map for FLUX.2-klein
     as per official example: https://huggingface.co/black-forest-labs/FLUX.2-klein-4B
     """
+    _prefer_site_packages_diffusers()
     from diffusers import DiffusionPipeline
+    import diffusers as _diffusers_mod
+    _patch_flux2_chat_format_input()
 
     print(f"Loading DiffusionPipeline from {model_id}...")
     print("  dtype=bfloat16, device_map=cuda")
+    print(f"  diffusers import path: {_diffusers_mod.__file__}")
 
-    # Use DiffusionPipeline with device_map as per official FLUX.2-klein example
+    # Try device_map first (memory-efficient path), then fall back to a safer
+    # load path if local diffusers/accelerate stack hits meta-tensor dispatch bugs.
     load_kwargs = dict(
         torch_dtype=torch.bfloat16,
         device_map="cuda",
@@ -62,7 +132,29 @@ def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str
     if hf_token and not hf_token.startswith("${"):
         load_kwargs["token"] = hf_token
 
-    pipe = DiffusionPipeline.from_pretrained(model_id, **load_kwargs)
+    try:
+        try:
+            # Default path: let diffusers read class from model_index.json
+            pipe = DiffusionPipeline.from_pretrained(model_id, **load_kwargs)
+        except AttributeError as e:
+            # Compatibility fallback: some diffusers versions expose Flux2Pipeline
+            # but not Flux2KleinPipeline referenced by the checkpoint metadata.
+            if "Flux2KleinPipeline" not in str(e):
+                raise
+            from diffusers import Flux2Pipeline
+            print("  Falling back to Flux2Pipeline (Flux2KleinPipeline not available in current diffusers).")
+            pipe = Flux2Pipeline.from_pretrained(model_id, **load_kwargs)
+    except NotImplementedError as e:
+        if "meta tensor" not in str(e):
+            raise
+        print("  Detected meta-tensor dispatch issue; retrying without device_map.")
+        retry_kwargs = dict(torch_dtype=torch.bfloat16, low_cpu_mem_usage=False)
+        if hf_token and not hf_token.startswith("${"):
+            retry_kwargs["token"] = hf_token
+        from diffusers import Flux2Pipeline
+        pipe = Flux2Pipeline.from_pretrained(model_id, **retry_kwargs)
+        if device and device.startswith("cuda") and torch.cuda.is_available():
+            pipe = pipe.to(device)
 
     # Additional memory savings if available
     try:
@@ -166,7 +258,7 @@ def main():
         for rec in records:
             for pair in rec["pairs"]:
                 for seed_idx in range(seeds_per_pair):
-                    seed = seed_idx * 1000 + hash(pair["pair_id"]) % 1000
+                    seed = (seed_idx * 7919 + abs(hash(pair["pair_id"]))) % (2**31)
                     out_path = raw_dir / rec["person_id"] / pair["pair_id"] / f"seed_{seed_idx}.png"
                     if str(out_path) in existing_images:
                         skipped += 1

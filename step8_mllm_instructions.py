@@ -8,11 +8,11 @@ For each (I_e, I_r) pair in the triplet metadata, call Qwen2.5-VL to:
   3. Compute the AU delta
   4. Produce a structured diffusion-model editing instruction
 
-The generated instruction overwrites the simple-template caption in
-data/triplets/triplet_metadata.jsonl  (adds field "facs_instruction")
-and updates data/dataset_v2/metadata.json tags in-place.
+The generated instruction is written back to
+data/triplets/triplet_metadata.jsonl (adds field "facs_instruction").
 
-Re-run step7 with --use-facs after this step to apply the new captions.
+Re-run step7 with --use-facs after this step to apply the new captions
+into data/dataset_v2/metadata.json.
 
 Input:
   data/triplets/triplet_metadata.jsonl

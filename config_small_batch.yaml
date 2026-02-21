@@ -1,0 +1,71 @@
+openai:
+  model: gpt-4o
+  api_key: ${OPENAI_API_KEY}
+  max_retries: 3
+  timeout: 60
+
+generation:
+  model_id: black-forest-labs/FLUX.2-klein-4B
+  pipeline_class: Flux2Pipeline
+  hf_token: ${HF_TOKEN}
+  width: 1056
+  height: 528
+  num_steps: 4
+  guidance_scale: 1.0
+  seeds_per_pair: 2
+  max_sequence_length: 512
+  device: cuda
+
+scale:
+  num_persons: 8
+  emotion_pairs_per_person: 2
+
+filtering:
+  arcface_threshold: 0.5
+  require_exact_one_face: true
+  face_det_score_threshold: 0.5
+  emotion_model: enet_b0_8_best_afew
+
+paths:
+  data_dir: data_small_20260220_213722
+  prompts_file: data_small_20260220_213722/prompts.jsonl
+  raw_dir: data_small_20260220_213722/raw
+  cropped_dir: data_small_20260220_213722/cropped
+  filtered_dir: data_small_20260220_213722/filtered
+  dataset_dir: data_small_20260220_213722/dataset
+  filter_stats: data_small_20260220_213722/filter_stats.json
+  metadata_file: data_small_20260220_213722/raw/metadata.jsonl
+  reference_pool_dir: data_small_20260220_213722/reference_pool
+  reference_pool_metadata: data_small_20260220_213722/reference_pool/pool_metadata.jsonl
+  triplets_dir: data_small_20260220_213722/triplets
+  triplets_metadata: data_small_20260220_213722/triplets/triplet_metadata.jsonl
+  dataset_v2_dir: data_small_20260220_213722/dataset_v2
+
+emotions:
+  - neutral
+  - happy
+  - sad
+  - angry
+  - surprised
+  - fearful
+  - disgusted
+  - contempt
+
+reference_pool:
+  flux_per_expression: 20
+  real_dataset_dir: data/real_datasets
+  min_face_area_frac: 0.10
+  emotion_conf_threshold: 0.55
+  k_ir_per_pair: 2
+
+emotion_pairs:
+  - [neutral, happy]
+  - [neutral, sad]
+  - [neutral, angry]
+  - [neutral, surprised]
+  - [neutral, fearful]
+  - [neutral, disgusted]
+  - [happy, sad]
+  - [happy, angry]
+  - [happy, surprised]
+  - [sad, angry]

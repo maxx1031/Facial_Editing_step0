@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 import jsonlines
+import numpy as np
 import yaml
 from PIL import Image
 from tqdm import tqdm
@@ -52,6 +53,63 @@ def center_crop(img: Image.Image, size: int) -> Image.Image:
     return img.crop((left, top, right, bottom))
 
 
+def _edge_white_run(
+    img: Image.Image,
+    side: str,
+    white_thresh: int = 245,
+    white_frac_thresh: float = 0.95,
+    max_scan: int = 64,
+) -> int:
+    """Count consecutive near-white columns from one image edge."""
+    arr = np.array(img.convert("RGB"))
+    col_white_frac = (
+        (arr[:, :, 0] >= white_thresh)
+        & (arr[:, :, 1] >= white_thresh)
+        & (arr[:, :, 2] >= white_thresh)
+    ).mean(axis=0)
+
+    seq = col_white_frac[:max_scan] if side == "left" else col_white_frac[::-1][:max_scan]
+    run = 0
+    for v in seq:
+        if v >= white_frac_thresh:
+            run += 1
+        else:
+            break
+    return int(run)
+
+
+def _trim_inner_white_seam(
+    left_half: Image.Image,
+    right_half: Image.Image,
+    target_size: int,
+) -> tuple[Image.Image, Image.Image]:
+    """
+    Trim near-white seam artifacts on inner edges:
+      - right edge of left half
+      - left edge of right half
+    """
+    run_left_inner = _edge_white_run(left_half, side="right")
+    run_right_inner = _edge_white_run(right_half, side="left")
+
+    # Add small safety margin to remove anti-aliased separator remnants.
+    trim_left = run_left_inner + 2 if run_left_inner > 0 else 0
+    trim_right = run_right_inner + 2 if run_right_inner > 0 else 0
+
+    lw, lh = left_half.size
+    rw, rh = right_half.size
+
+    # Keep enough width for downstream center crop.
+    trim_left = min(trim_left, max(0, lw - target_size))
+    trim_right = min(trim_right, max(0, rw - target_size))
+
+    if trim_left > 0:
+        left_half = left_half.crop((0, 0, lw - trim_left, lh))
+    if trim_right > 0:
+        right_half = right_half.crop((trim_right, 0, rw, rh))
+
+    return left_half, right_half
+
+
 def split_and_crop(
     img_path: Path,
     target_size: int = 512,
@@ -77,6 +135,9 @@ def split_and_crop(
     else:
         left_half = img.crop((0, 0, 528 - gutter_px, 528))
         right_half = img.crop((528 + gutter_px, 0, 1056, 528))
+
+    # Adaptive cleanup for variable center separator artifacts.
+    left_half, right_half = _trim_inner_white_seam(left_half, right_half, target_size=target_size)
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)
