@@ -41,7 +41,7 @@ STEP_DESCRIPTIONS = {
     2: "Generate side-by-side images (FLUX.2-klein)",
     3: "Crop pairs (1056x528 -> 512x512)",
     4: "Filter pairs (face + ArcFace + emotion + naturalness)",
-    5: "Build I_r reference pool (real/flux)",
+    5: "Build I_r reference pool (InfiniteYou from filtered pairs)",
     6: "Construct triplets (I_e, I_r, I_e_edit)",
     7: "Generate FACS instructions with Qwen2.5-VL (optional)",
     8: "Package Step1X dual-image dataset",
@@ -162,7 +162,7 @@ def main():
 Examples:
   python run_pipeline.py
   python run_pipeline.py --steps 1 2 3 4
-  python run_pipeline.py --steps 5 --pool-source both --pool-max-per-expression 100
+  python run_pipeline.py --steps 5 --pool-max-per-expression 100
   python run_pipeline.py --steps 6 --k 5
   python run_pipeline.py --steps 7 8 --model-path /path/to/Qwen2.5-VL-7B-Instruct --use-facs
 
@@ -203,13 +203,13 @@ Notes:
     parser.add_argument("--arcface-threshold", type=float, default=None,
                         help="(Step 4) ArcFace threshold override")
 
-    # Step 5 args
-    parser.add_argument("--pool-source", choices=["real", "flux", "both"], default=None,
-                        help="(Step 5) Reference pool source")
+    # Step 5 args (InfiniteYou reference pool generation)
     parser.add_argument("--pool-max-per-expression", type=int, default=None,
                         help="(Step 5) Max images per expression")
     parser.add_argument("--pool-seed", type=int, default=None,
                         help="(Step 5) Random seed")
+    parser.add_argument("--pool-cuda-device", type=int, default=None,
+                        help="(Step 5) CUDA device for InfiniteYou")
 
     # Step 6 args
     parser.add_argument("--k", type=int, default=None,
@@ -297,12 +297,12 @@ Notes:
             step_args[4].extend(["--arcface-threshold", str(args.arcface_threshold)])
 
     if 5 in step_args:
-        if args.pool_source:
-            step_args[5].extend(["--source", args.pool_source])
         if args.pool_max_per_expression is not None:
             step_args[5].extend(["--max-per-expression", str(args.pool_max_per_expression)])
         if args.pool_seed is not None:
             step_args[5].extend(["--seed", str(args.pool_seed)])
+        if args.pool_cuda_device is not None:
+            step_args[5].extend(["--cuda-device", str(args.pool_cuda_device)])
 
     if 6 in step_args:
         if args.k is not None:
