@@ -320,10 +320,10 @@ def build_combined_prompt(
     prompt_right = f"{base}, {emo_r_desc}, {quality}"
 
     combined_prompt = (
-        f"Two side-by-side photographs of the same person. "
+        f"Two side-by-side portrait photographs of the same person. "
         f"LEFT PHOTO: {base}, {emo_l_desc}. "
-        f"RIGHT PHOTO: same person, identical scene, identical lighting, identical clothing, "
-        f"only facial expression changes: {emo_r_desc}. "
+        f"RIGHT PHOTO: {base}, {emo_r_desc}. "
+        f"Both photos: same identity, same lighting, same background, same clothing. "
         f"{quality}. Split image, diptych format."
     )
 
@@ -338,9 +338,11 @@ def build_combined_prompt(
 
 def select_emotion_pairs(available_pairs: list, n: int, rng: random.Random) -> list:
     """Select n emotion pairs from the available pool."""
-    if n >= len(available_pairs):
-        return list(available_pairs[:n])
-    return rng.sample(available_pairs, n)
+    if n <= len(available_pairs):
+        return rng.sample(available_pairs, n)
+    # If caller requests more than available unique pairs, sample all once then
+    # continue with replacement to match the requested cardinality.
+    return list(available_pairs) + rng.choices(available_pairs, k=n - len(available_pairs))
 
 
 def load_existing_prompts(output_file: Path) -> set:

@@ -14,6 +14,7 @@ import sys
 from pathlib import Path
 
 import jsonlines
+import numpy as np
 import yaml
 from PIL import Image
 from tqdm import tqdm
@@ -52,6 +53,52 @@ def center_crop(img: Image.Image, size: int) -> Image.Image:
     return img.crop((left, top, right, bottom))
 
 
+def _trim_white_borders(
+    img: Image.Image,
+    white_thresh: int = 230,
+    white_frac_thresh: float = 0.95,
+    max_scan: int = 128,
+    margin: int = 2,
+) -> Image.Image:
+    """
+    Trim near-white borders on all four edges (left, right, top, bottom).
+
+    A row/column is considered white if >= white_frac_thresh fraction of its
+    pixels are all-channel >= white_thresh.  Consecutive white rows/columns
+    from each edge are removed, plus a small safety margin.
+    """
+    arr = np.array(img.convert("RGB"))
+    h, w = arr.shape[:2]
+
+    is_white = (
+        (arr[:, :, 0] >= white_thresh)
+        & (arr[:, :, 1] >= white_thresh)
+        & (arr[:, :, 2] >= white_thresh)
+    )
+
+    col_white_frac = is_white.mean(axis=0)   # shape (w,)
+    row_white_frac = is_white.mean(axis=1)   # shape (h,)
+
+    def _run(seq: np.ndarray) -> int:
+        count = 0
+        for v in seq[:max_scan]:
+            if v >= white_frac_thresh:
+                count += 1
+            else:
+                break
+        return count + margin if count > 0 else 0
+
+    trim_l = min(_run(col_white_frac),          max(0, w - 1))
+    trim_r = min(_run(col_white_frac[::-1]),    max(0, w - trim_l - 1))
+    trim_t = min(_run(row_white_frac),          max(0, h - 1))
+    trim_b = min(_run(row_white_frac[::-1]),    max(0, h - trim_t - 1))
+
+    box = (trim_l, trim_t, w - trim_r, h - trim_b)
+    if box[2] > box[0] and box[3] > box[1]:
+        img = img.crop(box)
+    return img
+
+
 def split_and_crop(
     img_path: Path,
     target_size: int = 512,
@@ -77,6 +124,10 @@ def split_and_crop(
     else:
         left_half = img.crop((0, 0, 528 - gutter_px, 528))
         right_half = img.crop((528 + gutter_px, 0, 1056, 528))
+
+    # Trim all four edges of each half independently.
+    left_half = _trim_white_borders(left_half)
+    right_half = _trim_white_borders(right_half)
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)

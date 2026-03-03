@@ -9,6 +9,8 @@ logs/
 *.log
 
 # Data / outputs (generated)
+data
+data_*
 data/*
 data/raw/
 data/cropped/
@@ -18,6 +20,8 @@ data/prompts/
 data/*.jsonl
 data/*.json
 
+.venv
+data_small_*/
 # Pipeline runtime artifacts
 data/.pipeline_checkpoint.json
 data/*stats*.json

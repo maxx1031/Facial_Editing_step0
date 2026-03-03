@@ -55,11 +55,25 @@ emotions:
 
 # v2 reference pool settings
 reference_pool:
-  flux_per_expression: 500       # synthetic I_r images per expression via Flux
-  real_dataset_dir: data/real_datasets  # root dir for AffectNet/RAF-DB/FER+
+  flux_per_expression: 500       # I_r images per expression (used by InfiniteYou generation)
   min_face_area_frac: 0.10
   emotion_conf_threshold: 0.55
   k_ir_per_pair: 3               # how many I_r to sample per (I_e, I_e_edit) pair
+
+# InfiniteYou settings (for step5 reference pool generation)
+infiniteyou:
+  infiniteyou_path: /scratch/GenAI_class/f007yzf/InfiniteYou
+  base_model_path: black-forest-labs/FLUX.1-dev
+  model_dir: ByteDance/InfiniteYou
+  infu_flux_version: v1.0
+  model_version: aes_stage2
+  width: 512
+  height: 512
+  guidance_scale: 3.5
+  num_steps: 30
+  infusenet_conditioning_scale: 1.2
+  infusenet_guidance_start: 0.0
+  infusenet_guidance_end: 1.0
 
 # Emotion pairs to generate (source_emotion -> target_emotion)
 emotion_pairs:
