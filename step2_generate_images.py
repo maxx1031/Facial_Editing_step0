@@ -127,7 +127,7 @@ def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str
     # Try device_map first (memory-efficient path), then fall back to a safer
     # load path if local diffusers/accelerate stack hits meta-tensor dispatch bugs.
     load_kwargs = dict(
-        torch_dtype=torch.bfloat16,
+        torch_dtype=torch.float16,
         device_map=device,
     )
     if hf_token and not hf_token.startswith("${"):
@@ -149,13 +149,26 @@ def load_pipeline(model_id: str, hf_token: str, device: str, pipeline_class: str
         if "meta tensor" not in str(e):
             raise
         print("  Detected meta-tensor dispatch issue; retrying without device_map.")
-        retry_kwargs = dict(torch_dtype=torch.bfloat16, low_cpu_mem_usage=False)
+        retry_kwargs = dict(torch_dtype=torch.float16, low_cpu_mem_usage=False)
         if hf_token and not hf_token.startswith("${"):
             retry_kwargs["token"] = hf_token
         from diffusers import Flux2Pipeline
         pipe = Flux2Pipeline.from_pretrained(model_id, **retry_kwargs)
         if device and device.startswith("cuda") and torch.cuda.is_available():
             pipe = pipe.to(device)
+
+    # Fix for FLUX.2-klein distilled models on diffusers 0.36.0:
+    # The checkpoint only has timestep_embedder weights, but the model class
+    # also creates a guidance_embedder with random weights.  Since the klein
+    # distilled model sets guidance_embeds=False, zero out the guidance_embedder
+    # so the random weights don't corrupt the timestep embedding.
+    try:
+        ge = pipe.transformer.time_guidance_embed.guidance_embedder
+        for p in ge.parameters():
+            p.data.zero_()
+        print("  Zeroed out randomly-initialized guidance_embedder weights (klein distilled fix).")
+    except AttributeError:
+        pass
 
     # Additional memory savings if available
     try:
