@@ -19,7 +19,7 @@ data/dataset/
 data/prompts/
 data/*.jsonl
 data/*.json
-
+mvp_step1x_v11_3
 .venv
 data_small_*/
 # Pipeline runtime artifacts
@@ -38,3 +38,6 @@ mvp_step1x_v11_3/lato/target_landmark_viz/
 *.safetensors
 *.onnx
 *.bin
+
+# Model weights
+models/

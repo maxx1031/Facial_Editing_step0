@@ -10,6 +10,7 @@ Output: data/cropped/{pair_id}_s{n}/left.png  (512×512)
 
 import argparse
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -23,11 +24,16 @@ from tqdm import tqdm
 def load_config(config_path: str = "config.yaml") -> dict:
     with open(config_path) as f:
         raw = yaml.safe_load(f)
+
+    env_pattern = re.compile(r"\$\{([^}]+)\}")
+
+    def expand_env(s: str) -> str:
+        # Support both full-string and embedded ${VAR} expansion.
+        return env_pattern.sub(lambda m: os.environ.get(m.group(1), ""), s)
+
     def expand(obj):
-        if isinstance(obj, str) and obj.startswith("${") and obj.endswith("}"):
-            var = obj[2:-1]
-            val = os.environ.get(var, obj)  # keep placeholder if not set
-            return val
+        if isinstance(obj, str):
+            return expand_env(obj)
         if isinstance(obj, dict):
             return {k: expand(v) for k, v in obj.items()}
         if isinstance(obj, list):
@@ -57,7 +63,7 @@ def _trim_white_borders(
     img: Image.Image,
     white_thresh: int = 230,
     white_frac_thresh: float = 0.95,
-    max_scan: int = 128,
+    max_scan: int | None = None,
     margin: int = 2,
 ) -> Image.Image:
     """
@@ -80,8 +86,9 @@ def _trim_white_borders(
     row_white_frac = is_white.mean(axis=1)   # shape (h,)
 
     def _run(seq: np.ndarray) -> int:
+        scan_len = len(seq) if (max_scan is None or max_scan <= 0) else min(len(seq), max_scan)
         count = 0
-        for v in seq[:max_scan]:
+        for v in seq[:scan_len]:
             if v >= white_frac_thresh:
                 count += 1
             else:
@@ -103,6 +110,10 @@ def split_and_crop(
     img_path: Path,
     target_size: int = 512,
     gutter_px: int = 12,
+    trim_white_thresh: int = 230,
+    trim_white_frac_thresh: float = 0.95,
+    trim_max_scan: int | None = None,
+    trim_margin: int = 2,
 ) -> tuple[Image.Image, Image.Image]:
     """
     Split a 1056×528 image into left/right halves (528×528 each),
@@ -126,8 +137,20 @@ def split_and_crop(
         right_half = img.crop((528 + gutter_px, 0, 1056, 528))
 
     # Trim all four edges of each half independently.
-    left_half = _trim_white_borders(left_half)
-    right_half = _trim_white_borders(right_half)
+    left_half = _trim_white_borders(
+        left_half,
+        white_thresh=trim_white_thresh,
+        white_frac_thresh=trim_white_frac_thresh,
+        max_scan=trim_max_scan,
+        margin=trim_margin,
+    )
+    right_half = _trim_white_borders(
+        right_half,
+        white_thresh=trim_white_thresh,
+        white_frac_thresh=trim_white_frac_thresh,
+        max_scan=trim_max_scan,
+        margin=trim_margin,
+    )
 
     left_crop = center_crop(left_half, target_size)
     right_crop = center_crop(right_half, target_size)
@@ -161,6 +184,14 @@ def main():
                         help="Output crop size in pixels (default: 512)")
     parser.add_argument("--gutter-px", type=int, default=12,
                         help="Skip this many pixels on each side of the center split (default: 12)")
+    parser.add_argument("--trim-white-thresh", type=int, default=230,
+                        help="Pixel >= this value in all RGB channels is considered near-white (default: 230)")
+    parser.add_argument("--trim-white-frac-thresh", type=float, default=0.95,
+                        help="If this fraction of a row/col is near-white, trim it (default: 0.95)")
+    parser.add_argument("--trim-max-scan", type=int, default=0,
+                        help="Max rows/cols to scan from each edge; 0 means full edge scan (default: 0)")
+    parser.add_argument("--trim-margin", type=int, default=2,
+                        help="Extra pixels to trim after white border detection (default: 2)")
     parser.add_argument("--raw-metadata", default=None,
                         help="Path to raw metadata.jsonl for richer metadata")
     args = parser.parse_args()
@@ -217,7 +248,16 @@ def main():
         out_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            left_crop, right_crop = split_and_crop(img_path, args.target_size, args.gutter_px)
+            trim_max_scan = None if args.trim_max_scan <= 0 else args.trim_max_scan
+            left_crop, right_crop = split_and_crop(
+                img_path,
+                target_size=args.target_size,
+                gutter_px=args.gutter_px,
+                trim_white_thresh=args.trim_white_thresh,
+                trim_white_frac_thresh=args.trim_white_frac_thresh,
+                trim_max_scan=trim_max_scan,
+                trim_margin=args.trim_margin,
+            )
 
             left_path = out_dir / "left.png"
             right_path = out_dir / "right.png"

@@ -69,7 +69,7 @@ _AGES = [
     "42-year-old", "50-year-old", "58-year-old", "65-year-old",
 ]
 
-_GENDERS = ["man", "woman"]
+_GENDERS = ["man", "woman", "non-binary person"]
 
 _ETHNICITIES = [
     "East Asian", "South Asian", "Black African", "Nigerian",
@@ -295,27 +295,6 @@ EMOTION_DESCRIPTIONS = {
 }
 
 
-
-FIXED_EMOTION_PAIRS = [
-    ["happy", "sad"],
-    ["happy", "angry"],
-    ["happy", "fearful"],
-    ["happy", "disgusted"],
-    ["happy", "surprised"],
-]
-
-
-def get_fixed_emotion_pairs(n: int) -> list[list[str]]:
-    """Return fixed ordered emotion pairs, repeating in-order if n > 5."""
-    if n <= len(FIXED_EMOTION_PAIRS):
-        return FIXED_EMOTION_PAIRS[:n]
-
-    pairs = []
-    for i in range(n):
-        pairs.append(FIXED_EMOTION_PAIRS[i % len(FIXED_EMOTION_PAIRS)])
-    return pairs
-
-
 def build_combined_prompt(
     person_desc: str,
     emotion_left: str,
@@ -342,16 +321,25 @@ def build_combined_prompt(
         context += f", {lighting}"
 
     base = f"professional photograph, {person_desc}{context}"
+    framing = (
+        "front-facing head-and-shoulders portrait, looking directly at camera, "
+        "centered face, neutral camera angle, both ears visible, symmetrical framing, "
+        "no profile view, no side view, no turned head"
+    )
+    identity_lock = (
+        "exactly the same person in both photos, preserve identical facial identity, "
+        "same skin tone, same facial structure, same hairstyle, same age appearance"
+    )
     quality = "high quality, photorealistic, sharp focus, 8k"
 
-    prompt_left = f"{base}, {emo_l_desc}, {quality}"
-    prompt_right = f"{base}, {emo_r_desc}, {quality}"
+    prompt_left = f"{base}, {framing}, {emo_l_desc}, {quality}"
+    prompt_right = f"{base}, {framing}, {emo_r_desc}, {quality}"
 
     combined_prompt = (
         f"Two side-by-side portrait photographs of the same person. "
-        f"LEFT PHOTO: {base}, {emo_l_desc}. "
-        f"RIGHT PHOTO: {base}, {emo_r_desc}. "
-        f"Both photos: same identity, same lighting, same background, same clothing. "
+        f"LEFT PHOTO: {base}, {framing}, {emo_l_desc}. "
+        f"RIGHT PHOTO: {base}, {framing}, {emo_r_desc}. "
+        f"Both photos: {identity_lock}, same lighting, same background, same clothing. "
         f"{quality}. Split image, diptych format."
     )
 
@@ -478,7 +466,7 @@ Examples:
             person_idx = start_idx + i
             person_id = f"p{person_idx:04d}"
 
-            selected_pairs = get_fixed_emotion_pairs(pairs_per_person)
+            selected_pairs = select_emotion_pairs(available_emotion_pairs, pairs_per_person, rng)
 
             pairs = []
             for pair_idx, (emo_l, emo_r) in enumerate(selected_pairs):

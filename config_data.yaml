@@ -28,20 +28,20 @@ filtering:
   emotion_model: enet_b0_8_best_afew  # HSEmotion model variant
 
 paths:
-  data_dir: data_seed_${RUN_SEED}
-  prompts_file: data_seed_${RUN_SEED}/prompts.jsonl
-  raw_dir: data_seed_${RUN_SEED}/raw
-  cropped_dir: data_seed_${RUN_SEED}/cropped
-  filtered_dir: data_seed_${RUN_SEED}/filtered
-  dataset_dir: data_seed_${RUN_SEED}/dataset
-  filter_stats: data_seed_${RUN_SEED}/filter_stats.json
-  metadata_file: data_seed_${RUN_SEED}/raw/metadata.jsonl
+  data_dir: data
+  prompts_file: data/prompts.jsonl
+  raw_dir: data/raw
+  cropped_dir: data/cropped
+  filtered_dir: data/filtered
+  dataset_dir: data/dataset
+  filter_stats: data/filter_stats.json
+  metadata_file: data/raw/metadata.jsonl
   # v2 pipeline paths
-  reference_pool_dir: data_seed_${RUN_SEED}/reference_pool
-  reference_pool_metadata: data_seed_${RUN_SEED}/reference_pool/pool_metadata.jsonl
-  triplets_dir: data_seed_${RUN_SEED}/triplets
-  triplets_metadata: data_seed_${RUN_SEED}/triplets/triplet_metadata.jsonl
-  dataset_v2_dir: data_seed_${RUN_SEED}/dataset_v2
+  reference_pool_dir: data/reference_pool
+  reference_pool_metadata: data/reference_pool/pool_metadata.jsonl
+  triplets_dir: data/triplets
+  triplets_metadata: data/triplets/triplet_metadata.jsonl
+  dataset_v2_dir: data/dataset_v2
 
 emotions:
   - neutral

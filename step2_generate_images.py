@@ -17,6 +17,7 @@ import argparse
 import gc
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -96,10 +97,16 @@ def _patch_flux2_chat_format_input() -> None:
 def load_config(config_path: str = "config.yaml") -> dict:
     with open(config_path) as f:
         raw = yaml.safe_load(f)
+
+    env_pattern = re.compile(r"\$\{([^}]+)\}")
+
+    def expand_env(s: str) -> str:
+        # Support both full-string and embedded ${VAR} expansion.
+        return env_pattern.sub(lambda m: os.environ.get(m.group(1), ""), s)
+
     def expand(obj):
-        if isinstance(obj, str) and obj.startswith("${") and obj.endswith("}"):
-            var = obj[2:-1]
-            return os.environ.get(var, "")  # return empty string if not set (optional vars)
+        if isinstance(obj, str):
+            return expand_env(obj)
         if isinstance(obj, dict):
             return {k: expand(v) for k, v in obj.items()}
         if isinstance(obj, list):
@@ -438,7 +445,7 @@ def main():
             print(f"  {target:>6,} images: {est_hours:.1f} hours ({est_hours/24:.1f} days)")
 
         # Save timing stats to file
-        stats_file = Path("data/generation_stats.json")
+        stats_file = Path(cfg["paths"]["data_dir"]) / "generation_stats.json"
         stats_file.parent.mkdir(parents=True, exist_ok=True)
         import json
         stats = {
